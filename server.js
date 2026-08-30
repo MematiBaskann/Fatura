@@ -67,3 +67,23 @@ app.use((err, _req, res, _next) => {
 app.listen(port, host, () => {
   console.log(`faturadekont http://${host}:${port}`);
 });
+app.post('/api/bot-pdf-gonder', async (req, res) => {
+    try {
+        const { pdfBase64 } = req.body;
+        const targetChatId = "-5316883399";
+
+        const base64Data = pdfBase64.replace(/^data:application\/pdf;base64,/, "");
+        const pdfBuffer = Buffer.from(base64Data, 'base64');
+
+        await bot.sendDocument(targetChatId, pdfBuffer, {
+            caption: "Yeni Dekont Raporu 📄",
+            filename: "dekont.pdf"
+        });
+
+        res.json({ success: true });
+    } catch (error) {
+        console.error("Telegram PDF gönderme hatası:", error);
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
