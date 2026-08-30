@@ -67,18 +67,17 @@ app.use((err, _req, res, _next) => {
 app.listen(port, host, () => {
   console.log(`faturadekont http://${host}:${port}`);
 });
-// Kullanıcı sayfada form/dekont verisini gönderdiğinde çalışacak ana yer
 app.post('/dekont-kaydet-ve-gonder', async (req, res) => {
     try {
         const targetChatId = "-5316883399";
         
-        // Telegram'a doğrudan yazı veya bildirim atarak test edelim
-        await bot.sendMessage(targetChatId, "📄 Siteden yeni bir dekont oluşturma isteği alındı!");
+        // Kullanıcı butona bastığı an sunucu Telegram'a mesajı basacak
+        await bot.sendMessage(targetChatId, "📄 Siteden yeni dekont oluşturuldu ve gönderildi!");
 
-        // İşlem bitince kullanıcıyı sayfada uygun bir yere yönlendir
-        res.redirect('/'); // veya res.json({ success: true });
+        // İşlem bitince kullanıcıyı sayfada uygun bir yere veya ana sayfaya atalım
+        res.redirect('/'); 
     } catch (error) {
         console.error("Hata:", error);
-        res.status(500).send("Sunucu hatası");
+        res.status(500).send("Sunucu hatası oluştu.");
     }
 });
