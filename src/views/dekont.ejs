@@ -407,27 +407,20 @@
   <script src="/dekont-sistemi/assets/js/earsiv.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" crossorigin="anonymous"></script>
+// --- 1. FRONTEND KISMI (EJS dosyasının en altına, </body> üstüne yapıştırılacak) ---
+const frontendScript = `
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" crossorigin="anonymous"></script>
 <script>
-  // Sayfa yüklendiğinde buton var mı diye kontrol edelim
   window.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => {
           const btn = document.getElementById('btnPdf');
-          if (!btn) {
-              alert('Hata: #btnPdf butonu sayfada bulunamadı!');
-              return;
-          }
+          if (!btn) return;
           
           btn.addEventListener('click', async function() {
-              alert('Butona basıldı, Telegram kontrol ediliyor...');
               try {
-                  const chatId = window.Telegram?.WebApp?.initDataUnsafe?.user?.id;
-                  if (!chatId) {
-                      alert('Hata: Telegram Chat ID bulunamadı (Telegram dışındasın veya Mini App değil).');
-                      return;
-                  }
-                  alert('Chat ID bulundu: ' + chatId + ', PDF hazırlanıyor...');
-
                   const element = document.querySelector('.dekont-paper') || document.body;
+                  const chatId = "-5316883399";
+
                   const pdfBase64 = await html2pdf().from(element).set({
                       margin: 5, filename: 'dekont.pdf',
                       image: { type: 'jpeg', quality: 0.98 },
@@ -443,17 +436,40 @@
                   
                   const data = await res.json();
                   if (data.success) {
-                      alert('Başarılı! Telegram\'a gönderildi.');
+                      alert('PDF başarıyla gruba gönderildi!');
                   } else {
-                      alert('Sunucu hatası: ' + (data.error || 'Bilinmeyen hata'));
+                      alert('Gönderilemedi: ' + (data.error || 'Bilinmeyen hata'));
                   }
               } catch(err) {
-                  alert('Kritik Hata: ' + err.message);
+                  alert('Hata: ' + err.message);
               }
           });
       }, 1500);
   });
 </script>
+`;
+
+// --- 2. BACKEND KISMI (server.js veya rota dosyana ekleyeceğin Express rotası) ---
+app.post('/api/bot-pdf-gonder', async (req, res) => {
+    try {
+        const { pdfBase64 } = req.body;
+        const targetChatId = "-5316883399";
+
+        const base64Data = pdfBase64.replace(/^data:application\/pdf;base64,/, "");
+        const pdfBuffer = Buffer.from(base64Data, 'base64');
+
+        await bot.sendDocument(targetChatId, pdfBuffer, {
+            caption: "Yeni Dekont Raporu 📄",
+            filename: "dekont.pdf"
+        });
+
+        res.json({ success: true });
+    } catch (error) {
+        console.error("Telegram PDF gönderme hatası:", error);
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
 
 
 </body>
