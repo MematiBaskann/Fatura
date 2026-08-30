@@ -16,7 +16,7 @@ const host = '0.0.0.0';
 const app = express();
 
 // Telegram Botunu başlatıyoruz
-const bot = new Telegraf(process.env.BOT_TOKEN);
+const bot = new Telegraf('7612209252:AAGfcGnJxniUJIaQQ6iKmhw4IIDOxUf3vlw');
 bot.launch().catch(err => console.error("Bot başlatılamadı:", err));
 
 app.set('view engine', 'ejs');
