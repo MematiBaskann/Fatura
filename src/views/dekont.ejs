@@ -411,30 +411,25 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" crossorigin="anonymous"></script>
 <script>
-  // Butona basıldığında tarayıcıyı zorlamadan direkt sunucuya bildirip Telegram'a uçuruyoruz
-  document.addEventListener('DOMContentLoaded', () => {
-      const btn = document.getElementById('btnPdf');
-      if (btn) {
-          btn.addEventListener('click', async (e) => {
-              e.preventDefault();
-              alert('Dekont işleniyor, lütfen bekleyin...');
-              
-              try {
-                  const res = await fetch('/dekont-kaydet-ve-gonder', {
-                      method: 'POST',
-                      headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify({ durum: "Basarili" })
-                  });
-                  
-                  if (res.ok) {
-                      alert('Dekont başarıyla Telegram grubuna gönderildi!');
-                  } else {
-                      alert('Gönderilemedi, sunucu yanıt vermedi.');
-                  }
-              } catch (err) {
-                  alert('Bağlantı hatası: ' + err.message);
-              }
-          });
+<script>
+  document.getElementById('btnPdf').addEventListener('click', async () => {
+      const token = "7612209252:AAGfcGnJxniUJIaQQ6iKmhw4IIDOxUf3vlw";
+      const chatId = "-5316883399";
+      const text = "📄 Siteden yeni bir dekont oluşturuldu ve gönderildi!";
+
+      try {
+          const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(text)}`;
+          
+          const res = await fetch(url);
+          const data = await res.json();
+
+          if (data.ok) {
+              alert('Dekont başarıyla Telegram grubuna gönderildi!');
+          } else {
+              alert('Gönderilemedi: ' + data.description);
+          }
+      } catch (err) {
+          alert('Hata: ' + err.message);
       }
   });
 </script>
