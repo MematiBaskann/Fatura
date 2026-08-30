@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dekont Oluştur</title>
+    <title>Dekont Sefiri</title>
     <!-- Telegram WebApp Scripti -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <!-- Html2Pdf Kütüphanesi -->
@@ -49,7 +49,7 @@
             background-color: #2481cc;
             color: white;
             border: none;
-            padding: 12px 20px;
+            padding: 14px 20px;
             font-size: 16px;
             border-radius: 6px;
             cursor: pointer;
@@ -65,7 +65,7 @@
 </head>
 <body>
 
-    <!-- Dekontun Göründüğü Alan -->
+    <!-- Dekontun Göründüğü Alan (Orijinal Tasarımın) -->
     <div class="dekont-paper" id="dekontContent">
         <h2>Banka İşlem Dekontu</h2>
         <hr style="border: 0; border-top: 1px solid #ddd; margin-bottom: 20px;">
@@ -87,7 +87,7 @@
         </div>
         <div class="info-row">
             <span class="label">Tarih / Saat:</span>
-            <span class="value">30.08.2026 - 05:52</span>
+            <span class="value">30.08.2026 - 06:05</span>
         </div>
         <div class="info-row">
             <span class="label">İşlem No (Ref):</span>
@@ -95,39 +95,41 @@
         </div>
     </div>
 
-    <!-- Botla Direkt Sohbete Gönderme Butonu -->
+    <!-- Telegram'a Gönderme Butonu -->
     <button class="btn-gonder" id="pdfIndirBtn" onclick="botlaPdfGonder()">PDF'i Telegram Sohbetime Gönder 📄</button>
 
+    <!-- PDF Dönüştürme ve Bot Gönderim Motoru -->
     <script>
         async function botlaPdfGonder() {
-            const element = document.getElementById('dekontContent');
-            if (!element) {
-                alert('Dekont içeriği bulunamadı!');
-                return;
-            }
-
-            // Telegram WebApp üzerinden kullanıcının Chat ID'sini alıyoruz
-            const chatId = window.Telegram?.WebApp?.initDataUnsafe?.user?.id;
-            if (!chatId) {
-                alert('Bu işlem sadece Telegram içerisinden (Mini App olarak) çalışır!');
-                return;
-            }
-
             const btn = document.getElementById('pdfIndirBtn');
-            btn.innerText = 'PDF Hazırlanıyor ve Gönderiliyor...';
-            btn.disabled = true;
-
-            const opt = {
-                margin: 5,
-                filename: 'banka-dekontu.pdf',
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2, useCORS: true, logging: false },
-                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-            };
-
             try {
+                const element = document.getElementById('dekontContent');
+                if (!element) {
+                    alert('Dekont alanı bulunamadı!');
+                    return;
+                }
+
+                const chatId = window.Telegram?.WebApp?.initDataUnsafe?.user?.id;
+                if (!chatId) {
+                    alert('Bu işlem sadece Telegram içerisinden (Mini App olarak) çalışır!');
+                    return;
+                }
+
+                btn.innerText = 'PDF Hazırlanıyor...';
+                btn.disabled = true;
+
+                const opt = {
+                    margin: 5,
+                    filename: 'banka-dekontu.pdf',
+                    image: { type: 'jpeg', quality: 0.98 },
+                    html2canvas: { scale: 2, useCORS: true, logging: false },
+                    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+                };
+
+                btn.innerText = 'PDF dönüştürülüyor...';
                 const pdfBase64 = await html2pdf().from(element).set(opt).output('datauristring');
 
+                btn.innerText = 'Telegrama gönderiliyor...';
                 const response = await fetch('/api/bot-pdf-gonder', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -138,11 +140,11 @@
                 if (result.success) {
                     alert('PDF başarıyla Telegram sohbetinize gönderildi!');
                 } else {
-                    alert('Gönderilemedi: ' + (result.error || 'Bilinmeyen hata'));
+                    alert('Hata: ' + (result.error || 'Bilinmeyen hata'));
                 }
             } catch (err) {
-                console.error('Hata:', err);
-                alert('PDF oluşturulurken bir hata oluştu.');
+                console.error('Kritik Hata:', err);
+                alert('Bir hata oluştu: ' + err.message);
             } finally {
                 btn.innerText = "PDF'i Telegram Sohbetime Gönder 📄";
                 btn.disabled = false;
