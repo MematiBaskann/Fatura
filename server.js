@@ -67,16 +67,25 @@ app.use((err, _req, res, _next) => {
 app.listen(port, host, () => {
   console.log(`faturadekont http://${host}:${port}`);
 });
-app.post('/dekont-kaydet-ve-gonder', async (req, res) => {
-    try {
-        const targetChatId = "-5316883399";
-        
-        // Telegraf kullandığımız için bot.telegram.sendMessage kullanıyoruz
-        await bot.telegram.sendMessage(targetChatId, "📄 Siteden yeni bir dekont oluşturuldu!");
+<script>
+  document.getElementById('btnPdf').addEventListener('click', async () => {
+      const token = "7612209252:AAGfcGnJxniUJIaQQ6iKmhw4IIDOxUf3vlw";
+      const chatId = "-5316883399";
+      const text = "📄 Siteden yeni bir dekont oluşturuldu ve gönderildi!";
 
-        return res.json({ success: true });
-    } catch (error) {
-        console.error("Telegram gönderme hatası:", error.message);
-        return res.status(500).json({ success: false, error: error.message });
-    }
-});
+      try {
+          const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(text)}`;
+          
+          const res = await fetch(url);
+          const data = await res.json();
+
+          if (data.ok) {
+              alert('Dekont başarıyla Telegram grubuna gönderildi!');
+          } else {
+              alert('Gönderilemedi: ' + data.description);
+          }
+      } catch (err) {
+          alert('Hata: ' + err.message);
+      }
+  });
+</script>
