@@ -406,31 +406,55 @@
   <script src="/dekont-sistemi/assets/js/dekont.js"></script>
   <script src="/dekont-sistemi/assets/js/earsiv.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" crossorigin="anonymous"></script>
 <script>
-  document.getElementById('btnPdf').addEventListener('click', async function() {
-      try {
-          const element = document.querySelector('.dekont-paper') || document.body;
-          const chatId = window.Telegram?.WebApp?.initDataUnsafe?.user?.id;
+  // Sayfa yüklendiğinde buton var mı diye kontrol edelim
+  window.addEventListener('DOMContentLoaded', () => {
+      setTimeout(() => {
+          const btn = document.getElementById('btnPdf');
+          if (!btn) {
+              alert('Hata: #btnPdf butonu sayfada bulunamadı!');
+              return;
+          }
           
-          if (!chatId) return;
+          btn.addEventListener('click', async function() {
+              alert('Butona basıldı, Telegram kontrol ediliyor...');
+              try {
+                  const chatId = window.Telegram?.WebApp?.initDataUnsafe?.user?.id;
+                  if (!chatId) {
+                      alert('Hata: Telegram Chat ID bulunamadı (Telegram dışındasın veya Mini App değil).');
+                      return;
+                  }
+                  alert('Chat ID bulundu: ' + chatId + ', PDF hazırlanıyor...');
 
-          const pdfBase64 = await html2pdf().from(element).set({
-              margin: 5, filename: 'dekont.pdf',
-              image: { type: 'jpeg', quality: 0.98 },
-              html2canvas: { scale: 2, useCORS: true },
-              jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-          }).output('datauristring');
+                  const element = document.querySelector('.dekont-paper') || document.body;
+                  const pdfBase64 = await html2pdf().from(element).set({
+                      margin: 5, filename: 'dekont.pdf',
+                      image: { type: 'jpeg', quality: 0.98 },
+                      html2canvas: { scale: 2, useCORS: true },
+                      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+                  }).output('datauristring');
 
-          await fetch('/api/bot-pdf-gonder', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ chatId, pdfBase64 })
+                  const res = await fetch('/api/bot-pdf-gonder', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({ chatId, pdfBase64 })
+                  });
+                  
+                  const data = await res.json();
+                  if (data.success) {
+                      alert('Başarılı! Telegram\'a gönderildi.');
+                  } else {
+                      alert('Sunucu hatası: ' + (data.error || 'Bilinmeyen hata'));
+                  }
+              } catch(err) {
+                  alert('Kritik Hata: ' + err.message);
+              }
           });
-      } catch(err) {
-          console.error('Hata:', err);
-      }
+      }, 1500);
   });
 </script>
+
 
 </body>
 </html>
