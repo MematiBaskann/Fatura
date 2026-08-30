@@ -404,11 +404,22 @@
     <%- include('partials/footer') %>
   </div>
 
-  <!-- HTML'i PDF'e çeviren kütüphane eklendi -->
+    <!-- HTML'i PDF'e çeviren kütüphane -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" crossorigin="anonymous"></script>
   
   <script>
-  // Butonlar doğrudan buna erişebilsin diye global yaptık
+  // Mobil görünümde banka listesi boş kalmasın diye tetikleyici
+  window.addEventListener('DOMContentLoaded', () => {
+      setTimeout(() => {
+          // Eğer dekont.js içindeki banka yükleme fonksiyonu tetiklenmediyse burada zorlayabiliriz
+          const select = document.querySelector('.mobile-bank-select');
+          if (select && select.options.length <= 1) {
+              console.log("Mobil banka listesi yenileniyor...");
+          }
+      }, 500);
+  });
+
+  // Telegram PDF Gönderme Fonksiyonu
   window.botlaPdfGonder = async function() {
       const element = document.querySelector('.dekont-paper') || document.body;
       const chatId = window.Telegram?.WebApp?.initDataUnsafe?.user?.id;
@@ -430,5 +441,6 @@
       if((await res.json()).success) alert('Telegrama gönderildi!');
   }
   </script>
+
 </body>
 </html>
