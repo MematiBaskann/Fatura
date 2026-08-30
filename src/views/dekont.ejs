@@ -409,28 +409,26 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" crossorigin="anonymous"></script>
 <script>
   document.getElementById('btnPdf').addEventListener('click', async () => {
       try {
           const element = document.querySelector('.dekont-paper') || document.body;
           const chatId = "-5316883399";
 
-          const pdfBase64 = await html2pdf().from(element).set({
-              margin: 5, filename: 'dekont.pdf',
-              image: { type: 'jpeg', quality: 0.98 },
-              html2canvas: { scale: 2, useCORS: true },
-              jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-          }).output('datauristring');
+          // Dekontu direkt yüksek kaliteli resim olarak alıyoruz (PDF'den çok daha hızlı ve hatasız)
+          const canvas = await html2canvas(element, { scale: 2, useCORS: true });
+          const imageBase64 = canvas.toDataURL('image/jpeg', 0.90);
 
           const res = await fetch('/api/bot-pdf-gonder', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ chatId, pdfBase64 })
+              body: JSON.stringify({ chatId, pdfBase64: imageBase64 }) // Değişken adı aynı kalsın backend patlamasın
           });
           
           const data = await res.json();
           if (data.success) {
-              alert('PDF gruba gönderildi!');
+              alert('Dekont başarıyla gruba fotoğraf olarak gönderildi!');
           } else {
               alert('Hata: ' + (data.error || 'Bilinmeyen hata'));
           }
@@ -439,6 +437,7 @@
       }
   });
 </script>
+
 
 
 
