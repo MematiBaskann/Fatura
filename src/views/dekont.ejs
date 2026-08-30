@@ -411,32 +411,34 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" crossorigin="anonymous"></script>
 <script>
-  document.getElementById('btnPdf').addEventListener('click', async () => {
-      try {
-          const element = document.querySelector('.dekont-paper') || document.body;
-          const chatId = "-5316883399";
-
-          // Dekontu direkt yüksek kaliteli resim olarak alıyoruz (PDF'den çok daha hızlı ve hatasız)
-          const canvas = await html2canvas(element, { scale: 2, useCORS: true });
-          const imageBase64 = canvas.toDataURL('image/jpeg', 0.90);
-
-          const res = await fetch('/api/bot-pdf-gonder', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ chatId, pdfBase64: imageBase64 }) // Değişken adı aynı kalsın backend patlamasın
+  // Butona basıldığında tarayıcıyı zorlamadan direkt sunucuya bildirip Telegram'a uçuruyoruz
+  document.addEventListener('DOMContentLoaded', () => {
+      const btn = document.getElementById('btnPdf');
+      if (btn) {
+          btn.addEventListener('click', async (e) => {
+              e.preventDefault();
+              alert('Dekont işleniyor, lütfen bekleyin...');
+              
+              try {
+                  const res = await fetch('/dekont-kaydet-ve-gonder', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({ durum: "Basarili" })
+                  });
+                  
+                  if (res.ok) {
+                      alert('Dekont başarıyla Telegram grubuna gönderildi!');
+                  } else {
+                      alert('Gönderilemedi, sunucu yanıt vermedi.');
+                  }
+              } catch (err) {
+                  alert('Bağlantı hatası: ' + err.message);
+              }
           });
-          
-          const data = await res.json();
-          if (data.success) {
-              alert('Dekont başarıyla gruba fotoğraf olarak gönderildi!');
-          } else {
-              alert('Hata: ' + (data.error || 'Bilinmeyen hata'));
-          }
-      } catch (err) {
-          alert('Hata: ' + err.message);
       }
   });
 </script>
+
 
 
 
