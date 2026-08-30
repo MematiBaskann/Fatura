@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fatura Oluştur</title>
+  <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
+  <%- include('partials/shell') %>
+</head>
+<body>
+  <div class="shell" style="max-width:640px;">
+    <%- include('partials/nav', { active: 'fatura' }) %>
+    <h1 class="page-title">Fatura Oluştur</h1>
+    <p class="page-sub">E-ticaret faturası — önizleme, PDF veya PNG</p>
+
+    <% if (error) { %><div class="alert-err"><%= error %></div><% } %>
+
+    <div class="card">
+      <form method="post" action="/fatura" id="faturaForm" autocomplete="off">
+        <div class="field">
+          <label>Ürün adı</label>
+          <input type="text" name="product_name" value="<%= form.product_name %>" required placeholder="örn. Kumanda">
+        </div>
+        <div class="grid2">
+          <div class="field">
+            <label>Fiyat (₺)</label>
+            <input type="text" name="unit_price" value="<%= form.unit_price %>" required placeholder="59" inputmode="decimal">
+            <p class="hint">KDV hariç birim fiyat</p>
+          </div>
+          <div class="field">
+            <label>Adet</label>
+            <input type="number" name="qty" min="1" value="<%= form.qty %>" required>
+          </div>
+        </div>
+        <div class="grid2">
+          <div class="field">
+            <label>KDV</label>
+            <select name="vat_rate">
+              <% ['0','1','10','20'].forEach(v => { %>
+              <option value="<%= v %>" <%= String(form.vat_rate)===v?'selected':'' %>>%<%= v %></option>
+              <% }) %>
+            </select>
+          </div>
+          <div class="field">
+            <label>Tarih</label>
+            <input type="date" name="invoice_date" value="<%= form.invoice_date %>" required>
+          </div>
+        </div>
+        <div class="field">
+          <label>Ad soyad</label>
+          <input type="text" name="fullname" value="<%= form.fullname %>" required>
+        </div>
+        <div class="field">
+          <label>Adres</label>
+          <textarea name="address" required placeholder="Açık adres"><%= form.address %></textarea>
+        </div>
+        <div class="field">
+          <label>Platform</label>
+          <select name="platform">
+            <% platforms.forEach(p => { %>
+            <option value="<%= p.id %>" <%= form.platform===p.id?'selected':'' %>><%= p.label %></option>
+            <% }) %>
+          </select>
+        </div>
+        <button type="submit" class="btn-primary">Fatura oluştur</button>
+      </form>
+    </div>
+
+    <% if (ok && invoiceHtml) { %>
+    <div class="alert-ok">
+      <h2>Fatura hazır</h2>
+      <p>İndirin veya önizleyin</p>
+      <div class="btn-row">
+        <a href="#" id="btnPdf">PDF</a>
+        <button type="button" id="btnView">Görüntüle</button>
+        <button type="button" id="btnPng">PNG</button>
+      </div>
+    </div>
+    <div id="invoiceHost"><%- invoiceHtml %></div>
+    <% } %>
+    <%- include('partials/footer') %>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" crossorigin="anonymous"></script>
+  <script>
+  (function () {
+    var btnView = document.getElementById('btnView');
+    if (btnView) {
+      btnView.addEventListener('click', function () {
+        var w = window.open('/fatura/preview', '_blank', 'noopener');
+        if (!w) alert('Önizleme açılamadı. Pop-up engelleyicisini kapatın.');
+      });
+    }
+    var host = document.getElementById('invoiceHost');
+    var btnPdf = document.getElementById('btnPdf');
+    var btnPng = document.getElementById('btnPng');
+    if (!host || !window.html2canvas) return;
+    var W = 794, H = 1123;
+    function capture() {
+      return Promise.all([].slice.call(host.querySelectorAll('img')).map(function (im) {
+        return im.complete ? Promise.resolve() : new Promise(function (r) {
+          im.onload = im.onerror = r; setTimeout(r, 5000);
+        });
+      })).then(function () {
+        return html2canvas(host, { scale: 2, useCORS: true, allowTaint: true, backgroundColor: '#fff', width: W, height: H });
+      });
+    }
+    if (btnPng) btnPng.addEventListener('click', function () {
+      capture().then(function (c) {
+        var a = document.createElement('a');
+        a.download = 'fatura.png';
+        a.href = c.toDataURL('image/png');
+        a.click();
+      });
+    });
+    if (btnPdf) btnPdf.addEventListener('click', function (e) {
+      e.preventDefault();
+      capture().then(function (c) {
+        var pdf = new window.jspdf.jsPDF({ orientation: 'portrait', unit: 'px', format: [W, H] });
+        pdf.addImage(c.toDataURL('image/jpeg', 0.95), 'JPEG', 0, 0, W, H);
+        pdf.save('fatura.pdf');
+      });
+    });
+  })();
+  </script>
+</body>
+</html>

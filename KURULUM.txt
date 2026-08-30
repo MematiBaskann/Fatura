@@ -1,0 +1,16 @@
+FATURADEKONT - HIZLI KURULUM
+============================
+
+1) Node.js kur (yoksa): https://nodejs.org  -> LTS indir, kur
+
+2) BASLAT.bat dosyasina cift tikla
+
+3) Tarayici acilir: http://127.0.0.1:3301
+
+   Fatura    -> sol menuden veya /fatura
+   Dekont    -> /dekont-olustur
+
+4) Kapatmak icin siyah pencereyi kapat
+
+---
+Detayli bilgi: README.md

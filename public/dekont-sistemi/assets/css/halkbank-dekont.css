@@ -1,0 +1,87 @@
+/* Halkbank — Havale dekontu (scope: .halkbank-slip-scope) */
+.halkbank-slip-scope {
+  font-family: 'Courier New', Courier, monospace;
+  color: #333;
+}
+
+.halkbank-slip-scope .hb-receipt-container {
+  background-color: #fff;
+  width: 800px;
+  padding: 40px;
+  position: relative;
+  border: 1px solid #ccc;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  box-sizing: border-box;
+}
+
+.halkbank-slip-scope .hb-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 40px;
+  gap: 16px;
+}
+
+.halkbank-slip-scope .hb-logo img {
+  width: 250px;
+  height: auto;
+  display: block;
+}
+
+.halkbank-slip-scope .hb-bank-info {
+  font-size: 11px;
+  text-align: right;
+  line-height: 1.4;
+}
+
+.halkbank-slip-scope .hb-content {
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.halkbank-slip-scope .hb-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.halkbank-slip-scope .hb-left-col {
+  width: 60%;
+}
+
+.halkbank-slip-scope .hb-right-col {
+  width: 35%;
+  text-align: left;
+}
+
+.halkbank-slip-scope .hb-label {
+  font-weight: normal;
+  text-transform: uppercase;
+}
+
+.halkbank-slip-scope .hb-amount-section {
+  margin-top: 30px;
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+}
+
+.halkbank-slip-scope .hb-footer-note {
+  border-top: 1px solid #eee;
+  padding-top: 20px;
+  margin-top: 50px;
+  font-size: 10px;
+  text-align: center;
+  color: #555;
+}
+
+@media print {
+  .halkbank-slip-scope .hb-receipt-container {
+    box-shadow: none !important;
+    border: none !important;
+    width: 100% !important;
+    max-width: none !important;
+    padding: 12px !important;
+  }
+}

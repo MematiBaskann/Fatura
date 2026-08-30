@@ -1,0 +1,115 @@
+/* VakıfBank FAST dekontu — yalnızca .vakifbank-slip-scope içinde */
+.vakifbank-slip-scope {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #f5f5f5;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  color: #333;
+  box-sizing: border-box;
+}
+
+.vakifbank-slip-scope *,
+.vakifbank-slip-scope *::before,
+.vakifbank-slip-scope *::after {
+  box-sizing: border-box;
+}
+
+.vakifbank-slip-scope .vb-container {
+  width: 700px;
+  max-width: 100%;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  padding: 20px;
+}
+
+.vakifbank-slip-scope .vb-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.vakifbank-slip-scope .vb-logo {
+  height: 40px;
+  width: auto;
+  display: block;
+}
+
+.vakifbank-slip-scope .vb-branchless-label {
+  background-color: #333;
+  color: #ffb800;
+  padding: 5px 15px;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.vakifbank-slip-scope .vb-bank-title {
+  background-color: #ffb800;
+  color: #333;
+  text-align: center;
+  font-weight: bold;
+  padding: 8px;
+  font-size: 14px;
+  text-transform: uppercase;
+}
+
+.vakifbank-slip-scope .vb-section-box {
+  border: 1px solid #ddd;
+  margin-top: 10px;
+}
+
+.vakifbank-slip-scope .vb-section-header {
+  background-color: #f9f9f9;
+  padding: 5px 10px;
+  font-size: 12px;
+  font-weight: bold;
+  border-bottom: 1px solid #ddd;
+}
+
+.vakifbank-slip-scope .vb-info-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.vakifbank-slip-scope .vb-info-table td {
+  padding: 8px 10px;
+  width: 25%;
+  vertical-align: top;
+}
+
+.vakifbank-slip-scope .vb-info-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.vakifbank-slip-scope .vb-label {
+  font-weight: bold;
+}
+
+.vakifbank-slip-scope .vb-description-box {
+  border: 1px solid #ddd;
+  margin-top: 15px;
+  padding: 15px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.vakifbank-slip-scope .vb-footer-info {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  margin-top: 15px;
+  padding: 10px;
+  font-size: 11px;
+  color: #333;
+}
+
+.vakifbank-slip-scope .vb-disclaimer {
+  border: 1px solid #ddd;
+  margin-top: 15px;
+  padding: 10px;
+  font-size: 11px;
+  text-align: center;
+  background-color: #fcfcfc;
+}

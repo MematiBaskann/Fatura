@@ -1,0 +1,1049 @@
+/* Dekont sistemi — form, önizleme, yazdırma */
+:root {
+  --sidebar-w: 260px;
+  --nav-h: 52px;
+  --bg-app: #050508;
+  --bg-panel: rgba(14, 14, 22, 0.92);
+  --border: rgba(212, 175, 55, 0.18);
+  --text: #f4f4f5;
+  --text-muted: rgba(255, 255, 255, 0.52);
+  --gold: #e8c547;
+  --gold-dark: #b8941f;
+  --gold-soft: rgba(232, 197, 71, 0.14);
+  --accent: var(--gold);
+}
+
+/* Yazdırma / PDF: tüm banka şablonları için A4 */
+@page {
+  size: A4 portrait;
+  margin: 10mm;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
+  font-family: "Plus Jakarta Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+  background: var(--bg-app);
+  color: var(--text);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.app-navbar {
+  flex-shrink: 0;
+  height: var(--nav-h);
+  position: sticky;
+  top: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0 clamp(0.5rem, 1.8vw, 1.25rem) 0 clamp(0.5rem, 1.2vw, 0.85rem);
+  background: linear-gradient(180deg, rgba(12, 12, 18, 0.98) 0%, rgba(8, 8, 12, 0.96) 100%);
+  border-bottom: 1px solid var(--border);
+  z-index: 300;
+}
+
+.nav-menu-btn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.nav-menu-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.nav-menu-icon {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background: currentColor;
+  border-radius: 1px;
+  box-shadow: 0 -6px 0 currentColor, 0 6px 0 currentColor;
+}
+
+.nav-brand {
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-family: "Cinzel", "Times New Roman", serif;
+  background: linear-gradient(90deg, var(--gold), #f5e6a3, var(--gold));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.app-nav {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.app-nav-link {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-decoration: none;
+  padding: 0.4rem 0.65rem;
+  border-radius: 8px;
+}
+
+.app-nav-link:hover {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.app-body {
+  display: flex;
+  flex: 1 1 auto;
+  min-width: 0;
+  position: relative;
+}
+
+.app-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  top: var(--nav-h);
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 180;
+}
+
+.app-backdrop:not([hidden]) {
+  display: block;
+}
+
+.sidebar {
+  width: var(--sidebar-w);
+  flex-shrink: 0;
+  background: var(--bg-panel);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-head {
+  padding: 1.25rem 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.sidebar-head h1 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.sidebar-head p {
+  margin: 0.35rem 0 0;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+/* RICH app.min / Bootstrap: h1,h2 { color: var(--bs-heading-color) } koyu kalmasın */
+.app .sidebar-head h1 {
+  color: var(--text);
+}
+
+.app .sidebar-head p {
+  color: var(--text-muted);
+}
+
+.app .panel-form h2,
+.app .earsiv-panel > h2:first-of-type {
+  color: rgba(255, 255, 255, 0.94);
+}
+
+.app .panel-form h2#formTitle #selectedBankTitle {
+  color: var(--gold);
+}
+
+.bank-list {
+  list-style: none;
+  margin: 0;
+  padding: 0.5rem;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: visible;
+}
+
+.bank-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  width: 100%;
+  padding: 0.65rem 0.75rem;
+  margin-bottom: 0.25rem;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--text);
+  font-size: 0.875rem;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.bank-btn:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.bank-btn.active {
+  background: var(--gold-soft);
+  border-color: rgba(232, 197, 71, 0.45);
+  box-shadow: 0 0 0 1px rgba(232, 197, 71, 0.12);
+}
+
+.bank-btn .bank-mini {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.bank-btn .bank-mini svg,
+.bank-btn .bank-mini img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+}
+
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  position: relative;
+}
+
+.dekont-empty {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.5rem;
+  min-height: calc(100vh - var(--nav-h));
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(232, 197, 71, 0.08), transparent 55%),
+    var(--bg-app);
+}
+
+.dekont-empty[hidden] {
+  display: none !important;
+}
+
+.dekont-empty__inner {
+  max-width: 420px;
+  text-align: center;
+  padding: 2rem 1.75rem;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: linear-gradient(165deg, rgba(22, 22, 32, 0.95), rgba(8, 8, 14, 0.92));
+  box-shadow:
+    0 24px 48px rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba(255, 255, 255, 0.04);
+}
+
+.dekont-empty__icon {
+  color: var(--gold);
+  margin: 0 auto 1rem;
+  opacity: 0.95;
+  filter: drop-shadow(0 4px 12px rgba(232, 197, 71, 0.25));
+}
+
+.dekont-empty__title {
+  margin: 0 0 0.65rem;
+  font-size: 1.35rem;
+  font-weight: 700;
+  font-family: "Cinzel", Georgia, serif;
+  color: #f5e6a3;
+  letter-spacing: 0.02em;
+}
+
+.dekont-empty__text {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--text-muted);
+}
+
+.dekont-empty__text strong {
+  color: rgba(255, 255, 255, 0.75);
+  font-weight: 600;
+}
+
+.dekont-empty__hint {
+  margin: 1.25rem 0 0;
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.38);
+}
+
+.dekont-empty__kbd {
+  display: inline-block;
+  padding: 0.1rem 0.4rem;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  margin-right: 0.35rem;
+  font-size: 0.85rem;
+}
+
+.main-workspace {
+  flex: 1 1 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(280px, 1fr);
+  gap: 0;
+  min-width: 0;
+  width: 100%;
+}
+
+.main-workspace > .panel-form,
+.main-workspace > .panel-preview {
+  min-width: 0;
+}
+
+.main-workspace[hidden] {
+  display: none !important;
+}
+
+.sidebar-earsiv {
+  padding: 0.75rem 1rem 1.25rem;
+  border-top: 1px solid var(--border);
+  flex-shrink: 0;
+  margin-top: auto;
+}
+
+.btn-sidebar-earsiv,
+.btn-sidebar-dekont {
+  width: 100%;
+  padding: 0.65rem 0.75rem;
+  margin-bottom: 0.35rem;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid rgba(232, 197, 71, 0.4);
+  background: rgba(232, 197, 71, 0.1);
+  color: var(--text);
+}
+
+.btn-sidebar-dekont {
+  border-color: var(--border);
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.btn-sidebar-earsiv:hover,
+.btn-sidebar-dekont:hover {
+  filter: brightness(1.08);
+}
+
+@media (max-width: 900px) {
+  .nav-menu-btn {
+    display: flex;
+  }
+
+  .sidebar {
+    position: fixed;
+    top: var(--nav-h);
+    left: 0;
+    bottom: 0;
+    width: min(300px, 88vw);
+    z-index: 200;
+    transform: translateX(-100%);
+    transition: transform 0.22s ease;
+    box-shadow: none;
+    overflow: hidden;
+    min-height: 0;
+  }
+
+  .sidebar.is-open {
+    transform: translateX(0);
+    box-shadow: 8px 0 24px rgba(0, 0, 0, 0.45);
+  }
+
+  .bank-list {
+    flex: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .app-backdrop:not([hidden]) {
+    display: block;
+  }
+}
+
+@media (max-width: 1100px) {
+  .main-workspace {
+    grid-template-columns: 1fr;
+  }
+
+  .panel-form {
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+}
+
+#sectionForm,
+#sectionPreview,
+#sectionEarsivForm,
+#sectionEarsivPreview {
+  scroll-margin-top: calc(var(--nav-h) + 10px);
+}
+
+.panel-form {
+  padding: clamp(1.25rem, 2.4vw, 1.85rem) clamp(1.2rem, 2.8vw, 2rem);
+  border-right: 1px solid var(--border);
+  overflow: visible;
+  max-height: none;
+  background: linear-gradient(165deg, rgba(14, 14, 22, 0.55), rgba(8, 8, 14, 0.35));
+}
+
+.panel-form h2 {
+  margin: 0 0 1rem;
+  font-size: 1.25rem;
+  color: rgba(255, 255, 255, 0.94);
+}
+
+.panel-form h2 #selectedBankTitle {
+  color: var(--gold);
+}
+
+.form-block {
+  margin-bottom: 1.25rem;
+}
+
+.form-block-title {
+  margin: 0 0 0.65rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+}
+
+.form-block-title--bank {
+  color: #93c5fd;
+}
+
+.form-hint {
+  margin: 0.75rem 0 0;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.45;
+}
+
+.form-hint--bank-empty {
+  padding: 0.75rem 0.85rem;
+  border-radius: 10px;
+  background: rgba(59, 130, 246, 0.08);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.85rem 1rem;
+}
+
+@media (max-width: 640px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+/* [hidden], tarayıcıda display:none iken .field { display:flex } bunu ezer — banka alanları hep görünürdü */
+.field[hidden],
+.form-hint[hidden],
+#bankFormSectionTitle[hidden] {
+  display: none !important;
+}
+
+.field.full {
+  grid-column: 1 / -1;
+}
+
+.field-group-title {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #93c5fd;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--border);
+  margin-top: 0.25rem;
+}
+
+.field label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.field input,
+.field select,
+.field textarea {
+  padding: 0.55rem 0.75rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: rgba(0, 0, 0, 0.25);
+  color: var(--text);
+  font-size: 0.9rem;
+}
+
+.field textarea {
+  min-height: 72px;
+  resize: vertical;
+}
+
+.actions {
+  margin-top: 1.25rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+.btn {
+  padding: 0.65rem 1.15rem;
+  border-radius: 8px;
+  border: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: filter 0.15s, transform 0.1s;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn-primary {
+  background: linear-gradient(145deg, #f5e6a3, var(--gold-dark));
+  color: #111;
+  font-weight: 700;
+  border: 1px solid rgba(232, 197, 71, 0.45);
+}
+
+.btn-primary:hover {
+  filter: brightness(1.06);
+}
+
+.btn-ghost {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+.btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.dekont-preview-placeholder {
+  min-height: 240px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem 1.25rem;
+  border-radius: 16px;
+  border: 1px dashed rgba(232, 197, 71, 0.28);
+  background: rgba(232, 197, 71, 0.04);
+  margin: 0.5rem 0;
+}
+
+.dekont-preview-placeholder__title {
+  margin: 0 0 0.35rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.dekont-preview-placeholder__sub {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.45;
+  max-width: 260px;
+}
+
+.panel-preview {
+  padding: clamp(1.1rem, 2.2vw, 1.5rem);
+  background: linear-gradient(180deg, rgba(8, 8, 14, 0.92), rgba(5, 5, 10, 0.88));
+  border-left: none;
+  overflow: visible;
+  max-height: none;
+  min-width: 0;
+}
+
+.panel-preview h3 {
+  margin: 0 0 0.75rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.preview-scale-wrap {
+  transform-origin: top center;
+  display: flex;
+  justify-content: center;
+  padding-bottom: 2rem;
+  overflow-x: auto;
+}
+
+/* Banka şablonları (ziraat-dekont.css vb.) kendi genişliklerini tanımlar — #printArea ile ezme. */
+
+#earsivPrintArea .earsiv-fatura-scope {
+  width: 100%;
+  max-width: 100%;
+}
+
+/* ——— Dekont kağıdı (yazdırma) ——— */
+.dekont-paper {
+  --d-accent: #007a33;
+  --d-bg: #ffffff;
+  --d-text: #1a1a1a;
+  --d-muted: #5c5c5c;
+  --d-border: #e0e0e0;
+  width: 380px;
+  max-width: 100%;
+  background: var(--d-bg);
+  color: var(--d-text);
+  border-radius: 4px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+  font-family: "Segoe UI", Arial, sans-serif;
+  font-size: 12px;
+  line-height: 1.45;
+  overflow: hidden;
+}
+
+.dekont-paper.bank-ziraat {
+  --d-accent: #007a33;
+}
+.dekont-paper.bank-isbank {
+  --d-accent: #003978;
+}
+.dekont-paper.bank-garanti {
+  --d-accent: #004f27;
+}
+.dekont-paper.bank-akbank {
+  --d-accent: #e2001a;
+}
+.dekont-paper.bank-yapikredi {
+  --d-accent: #004e8f;
+}
+.dekont-paper.bank-halkbank {
+  --d-accent: #0066b3;
+}
+.dekont-paper.bank-vakifbank {
+  --d-accent: #fdb913;
+  --d-text: #1a1a1a;
+}
+.dekont-paper.bank-qnb {
+  --d-accent: #870052;
+}
+.dekont-paper.bank-denizbank {
+  --d-accent: #0066a1;
+}
+.dekont-paper.bank-ing {
+  --d-accent: #ff6200;
+}
+.dekont-paper.bank-teb {
+  --d-accent: #00529b;
+}
+
+.dekont-header {
+  padding: 14px 16px;
+  border-bottom: 3px solid var(--d-accent);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: linear-gradient(180deg, #fafafa 0%, #fff 100%);
+}
+
+.dekont-header .logo-slot {
+  flex: 1;
+  min-height: 36px;
+  display: flex;
+  align-items: center;
+}
+
+.dekont-header .logo-slot svg {
+  max-height: 40px;
+  max-width: 180px;
+  width: auto;
+}
+
+.dekont-header .dekont-type {
+  text-align: right;
+  font-size: 10px;
+  color: var(--d-muted);
+}
+
+.dekont-header .dekont-type strong {
+  display: block;
+  font-size: 11px;
+  color: var(--d-accent);
+  margin-bottom: 2px;
+}
+
+.dekont-body {
+  padding: 16px;
+}
+
+.dekont-title {
+  text-align: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--d-text);
+  margin: 0 0 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px dashed var(--d-border);
+}
+
+.dekont-rows {
+  display: grid;
+  gap: 8px;
+}
+
+.dekont-row {
+  display: grid;
+  grid-template-columns: 38% 1fr;
+  gap: 8px;
+  padding: 6px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.dekont-row:last-child {
+  border-bottom: none;
+}
+
+.dekont-row dt {
+  margin: 0;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--d-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.dekont-row dd {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--d-text);
+  word-break: break-word;
+}
+
+.dekont-amount {
+  margin-top: 12px;
+  padding: 12px;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.03), rgba(0, 0, 0, 0.01));
+  border: 1px solid var(--d-border);
+  border-left: 4px solid var(--d-accent);
+  border-radius: 0 4px 4px 0;
+  text-align: center;
+}
+
+.dekont-amount .lbl {
+  font-size: 10px;
+  color: var(--d-muted);
+  text-transform: uppercase;
+}
+
+.dekont-amount .val {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--d-accent);
+  margin-top: 4px;
+  letter-spacing: 0.02em;
+}
+
+.dekont-footer {
+  padding: 12px 16px 16px;
+  font-size: 9px;
+  color: var(--d-muted);
+  text-align: center;
+  border-top: 1px solid var(--d-border);
+  background: #fafafa;
+}
+
+.dekont-footer .qr-line {
+  margin-top: 8px;
+  font-family: ui-monospace, monospace;
+  font-size: 8px;
+  opacity: 0.85;
+}
+
+@media print {
+  html,
+  body {
+    background: #fff !important;
+  }
+
+  /* RICH panel: yazdırmada yan menü / FAB / gölgeli kutu sayfaya taşmasın */
+  .premium-sidebar,
+  .sidebar-overlay,
+  #sidebarOverlay,
+  .mobile-toggle,
+  #sidebarMobileToggle {
+    display: none !important;
+  }
+
+  .premium-main {
+    margin-left: 0 !important;
+    padding: 0 !important;
+    background: #fff !important;
+    box-shadow: none !important;
+  }
+
+  .dekont-shell-wrap {
+    padding: 0 !important;
+    background: #fff !important;
+  }
+
+  .dekont-host {
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    background: #fff !important;
+    overflow: visible !important;
+  }
+
+  .app {
+    display: block !important;
+    min-height: 0 !important;
+    background: #fff !important;
+  }
+
+  .app-body {
+    display: block !important;
+  }
+
+  .app-navbar,
+  .app-backdrop {
+    display: none !important;
+  }
+
+  .mobile-bank-pick-wrap {
+    display: none !important;
+  }
+
+  .sidebar,
+  .panel-form,
+  .panel-preview h3 {
+    display: none !important;
+  }
+
+  .main {
+    display: block !important;
+  }
+
+  .panel-preview {
+    padding: 0 !important;
+    max-height: none !important;
+    overflow: visible !important;
+    background: #fff !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  .preview-scale-wrap {
+    padding: 0 !important;
+    margin: 0 !important;
+    display: block !important;
+    overflow: visible !important;
+  }
+
+  /* Yalnızca taşıyıcı — banka tasarımları kendi *.css @media print kurallarıyla kalır */
+  #printArea {
+    width: auto !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    text-align: center !important;
+  }
+
+  #printArea > * {
+    display: inline-block !important;
+    vertical-align: top !important;
+    text-align: initial !important;
+  }
+
+  #earsivPrintArea {
+    width: auto !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    text-align: center !important;
+  }
+
+  #earsivPrintArea > * {
+    display: inline-block !important;
+    vertical-align: top !important;
+    text-align: initial !important;
+  }
+
+  #printArea .dekont-paper {
+    box-shadow: none !important;
+    width: 100% !important;
+    max-width: 420px !important;
+    margin: 0 auto !important;
+  }
+
+  #earsivPrintArea .earsiv-fatura-scope {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #fff !important;
+    box-shadow: none !important;
+  }
+}
+
+/* Dekont kabuğu: üst navbar gizli; mobilde banka seçimi */
+.dekont-host .app-navbar {
+  display: none !important;
+}
+
+.dekont-host .mobile-bank-pick-wrap {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  /* Mobilde yan banka çekmecesi yok; fatura benzeri <select> + e-Arşiv butonları */
+  .dekont-host #bankDrawer {
+    display: none !important;
+  }
+
+  .dekont-host .mobile-bank-pick-wrap {
+    display: block;
+    position: sticky;
+    top: 0;
+    z-index: 190;
+    flex-shrink: 0;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(180deg, rgba(12, 12, 18, 0.98) 0%, rgba(8, 8, 12, 0.96) 100%);
+    padding: 0.75rem 0.85rem 0.65rem;
+  }
+
+  .dekont-host .mobile-bank-select-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .dekont-host .mobile-bank-select-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .dekont-host .mobile-bank-select {
+    width: 100%;
+    margin: 0;
+    padding: 0.65rem 0.85rem;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background-color: rgba(0, 0, 0, 0.35);
+    color: var(--text);
+    font-size: 0.95rem;
+    font-family: inherit;
+    cursor: pointer;
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23e8c547' d='M2.5 4.5L6 8l3.5-3.5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    padding-right: 2.25rem;
+  }
+
+  .dekont-host .mobile-bank-select:focus {
+    border-color: rgba(232, 197, 71, 0.45);
+    box-shadow: 0 0 0 3px rgba(232, 197, 71, 0.12);
+  }
+
+  .dekont-host .mobile-bank-inline-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    margin-top: 0.65rem;
+    padding-top: 0.65rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .dekont-host .mobile-bank-inline-actions .btn-sidebar-earsiv,
+  .dekont-host .mobile-bank-inline-actions .btn-sidebar-dekont {
+    width: 100%;
+    margin-bottom: 0;
+  }
+}
+
+.dekont-host .app {
+  width: 100%;
+  max-width: 100%;
+  min-height: auto;
+}
+
+.dekont-host .app-body,
+.dekont-host .main {
+  width: 100%;
+  max-width: 100%;
+}

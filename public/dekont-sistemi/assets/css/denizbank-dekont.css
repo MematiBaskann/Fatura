@@ -1,0 +1,136 @@
+/* DenizBank e-Dekont — .denizbank-slip-scope */
+.denizbank-slip-scope {
+  font-family: "Courier New", Courier, monospace;
+  background-color: #f0f0f0;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  color: #000;
+  box-sizing: border-box;
+}
+
+.denizbank-slip-scope *,
+.denizbank-slip-scope *::before,
+.denizbank-slip-scope *::after {
+  box-sizing: border-box;
+}
+
+.denizbank-slip-scope .dn-dekont-container {
+  width: 800px;
+  max-width: 100%;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 20px;
+  position: relative;
+}
+
+.denizbank-slip-scope .dn-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 10px;
+  gap: 12px;
+}
+
+.denizbank-slip-scope .dn-logo-area img {
+  width: 180px;
+  height: auto;
+  display: block;
+}
+
+.denizbank-slip-scope .dn-bank-info {
+  font-size: 10px;
+  line-height: 1.2;
+  max-width: 300px;
+  margin-top: 5px;
+}
+
+.denizbank-slip-scope .dn-center-title {
+  text-align: center;
+  font-weight: bold;
+}
+
+.denizbank-slip-scope .dn-right-info {
+  font-size: 12px;
+  text-align: right;
+}
+
+.denizbank-slip-scope .dn-top-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  font-size: 13px;
+}
+
+.denizbank-slip-scope .dn-top-table td {
+  border: 0.5px solid #ddd;
+  padding: 8px;
+  vertical-align: top;
+}
+
+.denizbank-slip-scope .dn-section-title {
+  font-weight: bold;
+  text-decoration: underline;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.denizbank-slip-scope .dn-details-table {
+  width: 100%;
+  font-size: 13px;
+  line-height: 1.6;
+  border-collapse: collapse;
+}
+
+.denizbank-slip-scope .dn-details-table td:first-child {
+  width: 180px;
+}
+
+.denizbank-slip-scope .dn-summary-text {
+  margin-top: 25px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.denizbank-slip-scope .dn-footer {
+  margin-top: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+}
+
+.denizbank-slip-scope .dn-sberbank-logo {
+  width: 120px;
+  height: auto;
+  opacity: 0.8;
+}
+
+.denizbank-slip-scope .dn-signatures {
+  text-align: right;
+  font-size: 12px;
+}
+
+.denizbank-slip-scope .dn-signature-img {
+  width: 150px;
+  display: block;
+  margin-left: auto;
+  filter: grayscale(1) contrast(2);
+  opacity: 0.7;
+}
+
+.denizbank-slip-scope .dn-watermark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-30deg);
+  font-size: 80px;
+  color: rgba(0, 0, 0, 0.03);
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.denizbank-slip-scope .dn-islem-notu {
+  font-size: 10px;
+  margin-top: 30px;
+}

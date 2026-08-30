@@ -1,0 +1,198 @@
+/* e-Arşiv fatura önizleme — .earsiv-fatura-scope (beyaz kağıt) */
+.earsiv-fatura-scope {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 11px;
+  margin: 0;
+  padding: 0;
+  color: #333;
+  background: #fff;
+  box-sizing: border-box;
+}
+
+.earsiv-fatura-scope *,
+.earsiv-fatura-scope *::before,
+.earsiv-fatura-scope *::after {
+  box-sizing: border-box;
+}
+
+.earsiv-fatura-scope .earsiv-container {
+  width: 800px;
+  max-width: 100%;
+  margin: auto;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.earsiv-fatura-scope .earsiv-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  gap: 12px;
+}
+
+.earsiv-fatura-scope .earsiv-company-info {
+  width: 45%;
+  min-width: 0;
+}
+
+.earsiv-fatura-scope .earsiv-company-info h3 {
+  margin: 0;
+  border-bottom: 2px solid #000;
+  padding-bottom: 5px;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+.earsiv-fatura-scope .earsiv-logo-section {
+  width: 20%;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.earsiv-fatura-scope .earsiv-logo-section img,
+.earsiv-fatura-scope .earsiv-logo-section img.earsiv-logo-img {
+  width: 80px;
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+}
+
+.earsiv-fatura-scope .earsiv-qr-section {
+  width: 25%;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.earsiv-fatura-scope .earsiv-qr-section img {
+  width: 100px;
+  height: auto;
+}
+
+.earsiv-fatura-scope .earsiv-customer-section {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  gap: 12px;
+}
+
+.earsiv-fatura-scope .earsiv-customer-info {
+  width: 45%;
+  border-top: 2px solid #000;
+  padding-top: 5px;
+  min-width: 0;
+}
+
+.earsiv-fatura-scope .earsiv-invoice-details {
+  width: 40%;
+  min-width: 0;
+}
+
+.earsiv-fatura-scope .earsiv-invoice-details table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.earsiv-fatura-scope .earsiv-invoice-details td,
+.earsiv-fatura-scope .earsiv-invoice-details th {
+  border: 1px solid #888;
+  padding: 3px;
+  font-size: 11px;
+}
+
+.earsiv-fatura-scope .earsiv-items-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.earsiv-fatura-scope .earsiv-items-table th,
+.earsiv-fatura-scope .earsiv-items-table td {
+  border: 1px solid #000;
+  padding: 5px;
+  text-align: center;
+  font-size: 10px;
+}
+
+.earsiv-fatura-scope .earsiv-totals-section {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+.earsiv-fatura-scope .earsiv-totals-table {
+  width: 40%;
+  min-width: 200px;
+  border-collapse: collapse;
+}
+
+.earsiv-fatura-scope .earsiv-totals-table td {
+  border: 1px solid #000;
+  padding: 4px;
+  text-align: right;
+  font-size: 11px;
+}
+
+.earsiv-fatura-scope .earsiv-totals-table td:first-child {
+  font-weight: bold;
+  background-color: #f9f9f9;
+  text-align: left;
+}
+
+.earsiv-fatura-scope .earsiv-footer-note {
+  margin-top: 30px;
+  border: 1px solid #000;
+  min-height: 80px;
+  padding: 10px;
+  font-size: 11px;
+  white-space: pre-wrap;
+}
+
+.earsiv-fatura-scope .earsiv-return-section {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  border: 1px solid #000;
+  padding: 10px;
+  gap: 12px;
+}
+
+.earsiv-fatura-scope .earsiv-return-box {
+  width: 45%;
+  min-width: 0;
+  font-size: 11px;
+}
+
+/* Form editörü (panel) */
+.earsiv-panel .earsiv-editor-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+  margin-bottom: 0.5rem;
+}
+
+.earsiv-panel .earsiv-editor-table th,
+.earsiv-panel .earsiv-editor-table td {
+  border: 1px solid var(--border);
+  padding: 0.35rem;
+}
+
+.earsiv-panel .earsiv-editor-table input {
+  width: 100%;
+  min-width: 0;
+  font-size: 0.8rem;
+}
+
+.earsiv-panel-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+@media print {
+  .earsiv-fatura-scope .earsiv-container {
+    border: none;
+  }
+}

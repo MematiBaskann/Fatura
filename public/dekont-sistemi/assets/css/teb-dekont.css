@@ -1,0 +1,119 @@
+/* TEB bankalararası transfer dekontu — .teb-slip-scope */
+.teb-slip-scope {
+  font-family: "Courier New", Courier, monospace;
+  font-size: 11px;
+  color: #333;
+  margin: 0;
+  padding: 20px;
+  background-color: #f5f5f5;
+  box-sizing: border-box;
+}
+
+.teb-slip-scope *,
+.teb-slip-scope *::before,
+.teb-slip-scope *::after {
+  box-sizing: border-box;
+}
+
+.teb-slip-scope .teb-dekont-container {
+  width: 800px;
+  max-width: 100%;
+  margin: 0 auto;
+  background-color: #fff;
+  padding: 30px;
+  border: 1px solid #ddd;
+  min-height: 900px;
+}
+
+.teb-slip-scope .teb-header {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 10px;
+  gap: 20px;
+}
+
+.teb-slip-scope img.teb-logo {
+  width: 150px;
+  max-width: 40%;
+  height: auto;
+  flex-shrink: 0;
+  display: block;
+}
+
+.teb-slip-scope .teb-bank-info {
+  font-size: 9px;
+  line-height: 1.4;
+  color: #666;
+}
+
+.teb-slip-scope .teb-title {
+  text-align: center;
+  font-weight: bold;
+  text-transform: uppercase;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  padding: 5px 0;
+  margin: 15px 0;
+  font-size: 13px;
+}
+
+.teb-slip-scope .teb-top-meta {
+  text-align: right;
+  margin-bottom: 15px;
+  line-height: 1.5;
+}
+
+.teb-slip-scope .teb-section-box {
+  border: 1px solid #000;
+  margin-bottom: -1px;
+  display: flex;
+  width: 100%;
+}
+
+.teb-slip-scope .teb-col {
+  padding: 10px;
+  flex: 1;
+  min-width: 0;
+}
+
+.teb-slip-scope .teb-col-left {
+  border-right: 1px solid #000;
+}
+
+.teb-slip-scope .teb-amount-section {
+  padding: 20px 10px;
+  border-left: 1px solid #000;
+  border-right: 1px solid #000;
+  line-height: 1.8;
+}
+
+.teb-slip-scope .teb-amount-row {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.teb-slip-scope .teb-amount-row > span:first-child {
+  flex: 1;
+  min-width: 200px;
+}
+
+.teb-slip-scope .teb-footer-text {
+  margin-top: 30px;
+  font-size: 10px;
+  color: #555;
+}
+
+@media print {
+  .teb-slip-scope {
+    background-color: #fff;
+    padding: 0;
+  }
+  .teb-slip-scope .teb-dekont-container {
+    border: none;
+    width: 100%;
+    min-height: auto;
+  }
+}

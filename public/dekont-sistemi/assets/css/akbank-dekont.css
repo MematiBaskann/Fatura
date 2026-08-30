@@ -1,0 +1,202 @@
+/* Akbank EFT dekont — akbank.html şablonu (.akbank-slip-scope) */
+
+.akbank-slip-scope {
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  margin: 0;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  color: #333;
+}
+
+.akbank-slip-scope *,
+.akbank-slip-scope *::before,
+.akbank-slip-scope *::after {
+  box-sizing: border-box;
+}
+
+.akbank-slip-scope .akb-receipt-container {
+  width: 800px;
+  max-width: 100%;
+  background-color: #fff;
+  border: 1px solid #000;
+  padding: 0;
+}
+
+.akbank-slip-scope .akb-header {
+  display: flex;
+  border-bottom: 1px solid #000;
+  padding: 10px;
+  align-items: center;
+}
+
+.akbank-slip-scope .akb-header-logo {
+  width: 150px;
+}
+
+.akbank-slip-scope .akb-header-logo img {
+  width: 130px;
+  height: auto;
+  display: block;
+}
+
+.akbank-slip-scope .akb-header-title {
+  flex-grow: 1;
+  text-align: center;
+}
+
+.akbank-slip-scope .akb-header-title h1 {
+  font-size: 14px;
+  margin: 0;
+  font-weight: bold;
+}
+
+.akbank-slip-scope .akb-header-title p {
+  font-size: 13px;
+  margin: 5px 0 0 0;
+  font-weight: bold;
+}
+
+.akbank-slip-scope .akb-qr-code {
+  width: 60px;
+  text-align: right;
+}
+
+.akbank-slip-scope .akb-qr-code img {
+  width: 50px;
+  height: auto;
+  display: inline-block;
+}
+
+.akbank-slip-scope .akb-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-bottom: 1px solid #000;
+}
+
+.akbank-slip-scope .akb-info-box {
+  padding: 8px;
+  min-height: 150px;
+}
+
+.akbank-slip-scope .akb-border-right {
+  border-right: 1px solid #000;
+}
+
+.akbank-slip-scope .akb-box-title {
+  font-size: 12px;
+  font-weight: bold;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.akbank-slip-scope .akb-row {
+  display: flex;
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.akbank-slip-scope .akb-label {
+  width: 110px;
+  font-weight: normal;
+  flex-shrink: 0;
+}
+
+.akbank-slip-scope .akb-value {
+  flex: 1;
+}
+
+.akbank-slip-scope .akb-iban-section {
+  padding: 10px;
+  font-size: 11px;
+  border-bottom: 1px solid #000;
+  min-height: 120px;
+}
+
+.akbank-slip-scope .akb-amount-section {
+  padding: 10px;
+  min-height: 200px;
+}
+
+.akbank-slip-scope .akb-amount-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11px;
+}
+
+.akbank-slip-scope .akb-amount-table td {
+  padding: 3px 0;
+}
+
+.akbank-slip-scope .akb-col-right {
+  text-align: right;
+  width: 100px;
+}
+
+.akbank-slip-scope .akb-total-row {
+  margin-top: 150px;
+  border-top: 1px solid #000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 0;
+  font-weight: bold;
+  font-size: 11px;
+}
+
+.akbank-slip-scope .akb-amount-text {
+  border-top: 1px solid #000;
+  padding: 5px 0;
+  font-size: 11px;
+}
+
+.akbank-slip-scope .akb-footer-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-top: 1px solid #000;
+}
+
+.akbank-slip-scope .akb-footer-box {
+  padding: 8px;
+  min-height: 100px;
+}
+
+.akbank-slip-scope .akb-bank-info {
+  font-size: 8px;
+  line-height: 1.5;
+  margin-top: 5px;
+}
+
+.akbank-slip-scope .akb-signature-title {
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.akbank-slip-scope .akb-footer-grid--extra {
+  border-top: 1px solid #000;
+}
+
+.akbank-slip-scope .akb-version {
+  text-align: right;
+  font-size: 10px;
+  color: #666;
+  padding: 6px 10px 0;
+}
+
+@media print {
+  .akbank-slip-scope {
+    padding: 0;
+    display: block;
+    background: #fff;
+  }
+
+  .akbank-slip-scope .akb-receipt-container {
+    width: 100%;
+    max-width: none;
+    border: 1px solid #000;
+  }
+}

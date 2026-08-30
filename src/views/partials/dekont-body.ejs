@@ -1,0 +1,1147 @@
+<div class="app">
+    <header class="app-navbar">
+        <button type="button" class="nav-menu-btn" id="navMenuBtn" aria-expanded="false" aria-controls="bankDrawer" title="Banka menüsü">
+            <span class="nav-menu-icon" aria-hidden="true"></span>
+            <span class="sr-only">Menüyü aç / kapat</span>
+        </button>
+            </header>
+    <div class="app-body">
+    <div class="app-backdrop" id="navBackdrop" hidden></div>
+    <aside class="sidebar" id="bankDrawer" aria-label="Banka seçimi">
+        <div class="sidebar-head">
+            <h1>Banka seçimi</h1>
+            <p>Listeden bir banka seçin; form ve önizleme yalnızca seçimden sonra açılır.</p>
+        </div>
+        <ul class="bank-list" id="bankList"></ul>
+        <div class="sidebar-earsiv">
+            <button type="button" class="btn-sidebar-earsiv" id="btnOpenEarsiv">e-Arşiv oluştur</button>
+            <button type="button" class="btn-sidebar-dekont" id="btnOpenDekont" hidden>Dekontlara dön</button>
+        </div>
+    </aside>
+    <div class="main">
+                <div class="mobile-bank-pick-wrap" id="mobileBankPickWrap">
+            <div class="mobile-bank-select-row">
+                <label class="mobile-bank-select-label" for="bankSelectInline">Banka</label>
+                <select id="bankSelectInline" class="mobile-bank-select" aria-label="Banka seçin">
+                    <option value="">Banka seçin</option>
+                </select>
+            </div>
+            <div class="mobile-bank-inline-actions">
+                <button type="button" class="btn-sidebar-earsiv" id="btnOpenEarsivMobile">e-Arşiv oluştur</button>
+                <button type="button" class="btn-sidebar-dekont" id="btnOpenDekontMobile" hidden>Dekontlara dön</button>
+            </div>
+        </div>
+                <div id="dekontEmptyState" class="dekont-empty" role="region" aria-label="Başlangıç">
+            <div class="dekont-empty__inner">
+                <div class="dekont-empty__icon" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.15" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5V20a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-9.5"/><path d="M2 10.5h20"/><path d="M6 14h3"/><path d="M6 17h3"/><path d="M14 14h1"/><path d="M14 17h1"/><path d="M12 3 2 10h20L12 3z"/><path d="M10 20V10.5"/><path d="M14 20V10.5"/></svg>
+                </div>
+                <h2 class="dekont-empty__title">Banka seçin</h2>
+                <p class="dekont-empty__text">Üstteki <strong>Banka</strong> açılır listesinden seçim yapın; <strong>işlem formu</strong> ve <strong>önizleme</strong> açılacaktır.</p>
+                            </div>
+        </div>
+        <div id="dekontWorkspace" class="main-workspace" hidden>
+        <section class="panel-form" id="sectionForm" aria-labelledby="formTitle">
+            <h2 id="formTitle"><span id="selectedBankTitle">—</span> — işlem bilgileri</h2>
+            <form id="panelForm" action="#" method="post" onsubmit="return false;">
+                <div class="form-block">
+                    <h3 class="form-block-title">Ortak bilgiler</h3>
+                    <div class="form-grid form-grid--common">
+                    <div class="field">
+                        <label for="f-islem-tarihi">İşlem tarihi</label>
+                        <input type="date" id="f-islem-tarihi" name="islem_tarihi" autocomplete="off">
+                    </div>
+                    <div class="field">
+                        <label for="f-islem-saati">İşlem saati</label>
+                        <input type="time" id="f-islem-saati" name="islem_saati" step="1" autocomplete="off">
+                    </div>
+                    <div class="field">
+                        <label for="f-dekont-no">Dekont / işlem numarası</label>
+                        <input type="text" id="f-dekont-no" name="dekont_no" maxlength="32" autocomplete="off">
+                    </div>
+                    <div class="field">
+                        <label for="f-islem-tipi">İşlem tipi</label>
+                        <select id="f-islem-tipi" name="islem_tipi">
+                            <option value="havale">Havale</option>
+                            <option value="eft">EFT / FAST</option>
+                            <option value="virman">Virman</option>
+                            <option value="odeme">Ödeme</option>
+                        </select>
+                    </div>
+                    <div class="field full">
+                        <label for="f-gonderen">Gönderen adı / unvan</label>
+                        <input type="text" id="f-gonderen" name="gonderen" maxlength="120" autocomplete="name">
+                    </div>
+                    <div class="field full">
+                        <label for="f-gonderen-iban">Gönderen IBAN</label>
+                        <input type="text" id="f-gonderen-iban" name="gonderen_iban" maxlength="40" placeholder="TR..">
+                    </div>
+                    <div class="field full">
+                        <label for="f-alici">Alıcı adı / unvan</label>
+                        <input type="text" id="f-alici" name="alici" maxlength="120">
+                    </div>
+                    <div class="field full">
+                        <label for="f-alici-iban">Alıcı IBAN</label>
+                        <input type="text" id="f-alici-iban" name="alici_iban" maxlength="40" placeholder="TR..">
+                    </div>
+                    <div class="field">
+                        <label for="f-tutar">Tutar (TL)</label>
+                        <input type="text" id="f-tutar" name="tutar" placeholder="0,00 veya 1.234,56" inputmode="decimal">
+                    </div>
+                    <div class="field">
+                        <label for="f-kanal">Kanal</label>
+                        <select id="f-kanal" name="kanal">
+                            <option value="İnternet Bankacılığı">İnternet Bankacılığı</option>
+                            <option value="Mobil Bankacılık">Mobil Bankacılık</option>
+                            <option value="Şube">Şube</option>
+                            <option value="ATM">ATM</option>
+                            <option value="Çağrı Merkezi">Çağrı Merkezi</option>
+                        </select>
+                    </div>
+                    <div class="field full">
+                        <label for="f-aciklama">Açıklama</label>
+                        <textarea id="f-aciklama" name="aciklama" maxlength="500"></textarea>
+                    </div>
+                    <div class="field">
+                        <label for="f-referans">Referans</label>
+                        <input type="text" id="f-referans" name="referans" maxlength="64">
+                    </div>
+                    <div class="field">
+                        <label for="f-onay">Onay kodu</label>
+                        <input type="text" id="f-onay" name="onay" maxlength="20">
+                    </div>
+                    </div>
+                </div>
+                <div class="form-block" id="bankFormBlock">
+                    <h3 class="form-block-title form-block-title--bank" id="bankFormSectionTitle">Banka özel alanları</h3>
+                    <div class="form-grid form-grid--bank">
+                    <div class="field full field-ziraat-only" hidden aria-hidden="true">
+                        <span class="field-group-title">Ziraat — Hesaptan Hesaba Havale alanları</span>
+                    </div>
+                    <div class="field full field-ziraat-only" hidden>
+                        <label for="f-zi-sube">Şube kodu / adı</label>
+                        <input type="text" id="f-zi-sube" maxlength="80" placeholder="4000/ZİRAAT SÜPER ŞUBE">
+                    </div>
+                    <div class="field full field-ziraat-only" hidden>
+                        <label for="f-zi-hesap">Hesap numarası</label>
+                        <input type="text" id="f-zi-hesap" maxlength="40" placeholder="4000/44538763-5009">
+                    </div>
+                    <div class="field field-ziraat-only" hidden>
+                        <label for="f-zi-vd">Vergi dairesi</label>
+                        <input type="text" id="f-zi-vd" maxlength="80">
+                    </div>
+                    <div class="field field-ziraat-only" hidden>
+                        <label for="f-zi-vkn">Vergi kimlik no (gönderen)</label>
+                        <input type="text" id="f-zi-vkn" maxlength="20">
+                    </div>
+                    <div class="field full field-ziraat-only" hidden>
+                        <label for="f-zi-islem-ek">İşlem ek ref (örn. F35544_4003)</label>
+                        <input type="text" id="f-zi-islem-ek" maxlength="40">
+                    </div>
+                    <div class="field field-ziraat-only" hidden>
+                        <label for="f-zi-valor">Valör</label>
+                        <input type="text" id="f-zi-valor" maxlength="20" placeholder="08.11.2023">
+                    </div>
+                    <div class="field field-ziraat-only" hidden>
+                        <label for="f-zi-yer">İşlem yeri</label>
+                        <input type="text" id="f-zi-yer" maxlength="60" placeholder="ZİRAAT MOBİL">
+                    </div>
+                    <div class="field full field-ziraat-only" hidden>
+                        <label for="f-zi-sayin">Sayın (hesap sahibi adı)</label>
+                        <input type="text" id="f-zi-sayin" maxlength="120">
+                    </div>
+                    <div class="field full field-ziraat-only" hidden>
+                        <label for="f-zi-adres">Adres</label>
+                        <textarea id="f-zi-adres" maxlength="500" rows="3"></textarea>
+                    </div>
+                    <div class="field full field-ziraat-only" hidden>
+                        <label for="f-zi-alacakli-sube">Alacaklı şube</label>
+                        <input type="text" id="f-zi-alacakli-sube" maxlength="120">
+                    </div>
+                    <div class="field field-ziraat-only" hidden>
+                        <label for="f-zi-alacakli-hesap">Alacaklı hesap</label>
+                        <input type="text" id="f-zi-alacakli-hesap" maxlength="40">
+                    </div>
+                    <div class="field field-ziraat-only" hidden>
+                        <label for="f-zi-alacakli-vkn">Alacaklı vergi no</label>
+                        <input type="text" id="f-zi-alacakli-vkn" maxlength="20">
+                    </div>
+                    <div class="field field-ziraat-only" hidden>
+                        <label for="f-zi-komisyon">Komisyon (TL)</label>
+                        <input type="text" id="f-zi-komisyon" placeholder="0,00">
+                    </div>
+                    <div class="field field-ziraat-only" hidden>
+                        <label for="f-zi-alt-ts">Alt satır tarih-saat</label>
+                        <input type="text" id="f-zi-alt-ts" maxlength="40" placeholder="08/11/2023-22:38:45">
+                    </div>
+                    <div class="field field-ziraat-only" hidden>
+                        <label for="f-zi-kanal-kod">Kanal kodu satırı</label>
+                        <input type="text" id="f-zi-kanal-kod" maxlength="60" placeholder="INTTHVLG MOBİL">
+                    </div>
+                    <div class="field full field-ziraat-only" hidden>
+                        <label for="f-zi-imza">İmza bloğu (3. satır)</label>
+                        <input type="text" id="f-zi-imza" maxlength="80" placeholder="İNTERNET ŞUBESİ">
+                    </div>
+                    <div class="field full field-isbank-only" hidden aria-hidden="true">
+                        <span class="field-group-title">İş Bankası — e-Dekont alanları</span>
+                    </div>
+                    <div class="field field-isbank-only" hidden>
+                        <label for="f-is-musteri-no">Müşteri no</label>
+                        <input type="text" id="f-is-musteri-no" maxlength="32" placeholder="521926179">
+                    </div>
+                    <div class="field field-isbank-only" hidden>
+                        <label for="f-is-tckn">TCKN (maskeleme önizlemede)</label>
+                        <input type="text" id="f-is-tckn" maxlength="20" placeholder="45850541234">
+                    </div>
+                    <div class="field field-isbank-only" hidden>
+                        <label for="f-is-fast-ucret">FAST ücreti ve vergi (TL)</label>
+                        <input type="text" id="f-is-fast-ucret" placeholder="0,00">
+                    </div>
+                    <div class="field field-isbank-only" hidden>
+                        <label for="f-is-valor">Valör (gg.aa.yyyy)</label>
+                        <input type="text" id="f-is-valor" maxlength="20" placeholder="10.10.2025">
+                    </div>
+                    <div class="field full field-isbank-only" hidden>
+                        <label for="f-is-ref">Referans numarası (tam satır)</label>
+                        <input type="text" id="f-is-ref" maxlength="80" placeholder="10.10.2025/447/8888/8888">
+                    </div>
+                    <div class="field full field-isbank-only" hidden>
+                        <label for="f-is-dekont-ts">Dekont tarihi / saat (metin)</label>
+                        <input type="text" id="f-is-dekont-ts" maxlength="40" placeholder="10.10.2025 12:07:24">
+                    </div>
+                    <div class="field full field-isbank-only" hidden>
+                        <label for="f-is-edoc-no">e-Dekont belge no</label>
+                        <input type="text" id="f-is-edoc-no" maxlength="40" placeholder="A012025963249487">
+                    </div>
+                    <div class="field full field-isbank-only" hidden>
+                        <label for="f-is-ettn">ETTN</label>
+                        <input type="text" id="f-is-ettn" maxlength="64" placeholder="65523fae-1b94-4620-a740-7a70c751fbfe">
+                    </div>
+                    <div class="field field-isbank-only" hidden>
+                        <label for="f-is-senaryo">Senaryo / dekont tipi</label>
+                        <input type="text" id="f-is-senaryo" maxlength="24" placeholder="DEKONT/EFT">
+                    </div>
+                    <div class="field field-isbank-only" hidden>
+                        <label for="f-is-sorgu-no">Sorgu numarası</label>
+                        <input type="text" id="f-is-sorgu-no" maxlength="24" placeholder="2773298531">
+                    </div>
+                    <div class="field full field-isbank-only" hidden>
+                        <label for="f-is-alici-banka">Alıcı banka (tam satır)</label>
+                        <input type="text" id="f-is-alici-banka" maxlength="120" placeholder="10 - Türkiye Cumhuriyeti Ziraat Bankası A.Ş.">
+                    </div>
+                    <div class="field full field-isbank-only" hidden>
+                        <label for="f-is-baslik">Sol sütun mavi başlık</label>
+                        <input type="text" id="f-is-baslik" maxlength="80" placeholder="Giden Fast İşlemi">
+                    </div>
+                    <div class="field full field-garanti-only" hidden aria-hidden="true">
+                        <span class="field-group-title">Garanti BBVA — Hesaptan Hesaba Havale</span>
+                    </div>
+                    <div class="field full field-garanti-only" hidden>
+                        <label for="f-ga-sube">Şube adı</label>
+                        <input type="text" id="f-ga-sube" maxlength="80" placeholder="İBRAHİMAĞA CAD/GEBZE">
+                    </div>
+                    <div class="field field-garanti-only" hidden>
+                        <label for="f-ga-musteri-no">Müşteri numarası</label>
+                        <input type="text" id="f-ga-musteri-no" maxlength="24" placeholder="47329907">
+                    </div>
+                    <div class="field field-garanti-only" hidden>
+                        <label for="f-ga-hesap-no">Hesap numarası</label>
+                        <input type="text" id="f-ga-hesap-no" maxlength="40" placeholder="1202/6656716">
+                    </div>
+                    <div class="field field-garanti-only" hidden>
+                        <label for="f-ga-tckn">TC kimlik no</label>
+                        <input type="text" id="f-ga-tckn" maxlength="15" placeholder="52606433492">
+                    </div>
+                    <div class="field field-garanti-only" hidden>
+                        <label for="f-ga-islem-yeri">İşlem yeri (kısa)</label>
+                        <input type="text" id="f-ga-islem-yeri" maxlength="24" placeholder="MOBİL">
+                    </div>
+                    <div class="field field-garanti-only" hidden>
+                        <label for="f-ga-duzenleme">Düzenlenme tarihi</label>
+                        <input type="text" id="f-ga-duzenleme" maxlength="20" placeholder="28.01.2023">
+                    </div>
+                    <div class="field full field-garanti-only" hidden>
+                        <label for="f-ga-sayin-adres">Sayın adresi (satırlar)</label>
+                        <textarea id="f-ga-sayin-adres" maxlength="500" rows="4" placeholder="EMEK MAH...&#10;41420 ÇAYIROVA/KOCAELİ"></textarea>
+                    </div>
+                    <div class="field full field-garanti-only" hidden>
+                        <label for="f-ga-orta-baslik">Orta kutu üst başlık (açıklama satırı)</label>
+                        <input type="text" id="f-ga-orta-baslik" maxlength="120" placeholder="BARAN BARIŞ DEMİR FİTBOX">
+                    </div>
+                    <div class="field full field-garanti-only" hidden>
+                        <label for="f-ga-alacakli-sube">Alacaklı şube</label>
+                        <input type="text" id="f-ga-alacakli-sube" maxlength="80" placeholder="ŞANLIURFA">
+                    </div>
+                    <div class="field full field-garanti-only" hidden>
+                        <label for="f-ga-alacakli-hesap-detay">Alacaklı hesap (tam satır)</label>
+                        <input type="text" id="f-ga-alacakli-hesap-detay" maxlength="120" placeholder="00451 / 6873376 ERGÜN ÇETİN">
+                    </div>
+                    <div class="field full field-garanti-only" hidden>
+                        <label for="f-ga-masraf-hesabi">Masraf hesabı</label>
+                        <input type="text" id="f-ga-masraf-hesabi" maxlength="40" placeholder="01202 / 6656716">
+                    </div>
+                    <div class="field field-garanti-only" hidden>
+                        <label for="f-ga-masraf">Masraf tutarı</label>
+                        <input type="text" id="f-ga-masraf" placeholder="1,55 TL">
+                    </div>
+                    <div class="field field-garanti-only" hidden>
+                        <label for="f-ga-bsmv">BSMV</label>
+                        <input type="text" id="f-ga-bsmv" placeholder="0,08 TL">
+                    </div>
+                    <div class="field field-garanti-only" hidden>
+                        <label for="f-ga-masraf-toplam">Masraf toplamı</label>
+                        <input type="text" id="f-ga-masraf-toplam" placeholder="1,63 TL">
+                    </div>
+                    <div class="field full field-garanti-only" hidden>
+                        <label for="f-ga-tutar-yazi">Tutar yazıyla (italik satır)</label>
+                        <input type="text" id="f-ga-tutar-yazi" maxlength="120" placeholder="YALNIZ BinDörtYüzElliBeşTL.">
+                    </div>
+                    <div class="field full field-garanti-only" hidden>
+                        <label for="f-ga-sira-no">Sıra no (tam metin)</label>
+                        <input type="text" id="f-ga-sira-no" maxlength="80" placeholder="2022-11-22-16.38.54.589342">
+                    </div>
+                    <div class="field full field-akbank-only" hidden aria-hidden="true">
+                        <span class="field-group-title">Akbank — EFT dekont alanları</span>
+                    </div>
+                    <div class="field full field-akbank-only" hidden>
+                        <label for="f-akb-header-sub">Üst başlık (DEKONT altı)</label>
+                        <input type="text" id="f-akb-header-sub" maxlength="80" placeholder="EFT BANKALAR ARASI HESABA HAVALE">
+                    </div>
+                    <div class="field full field-akbank-only" hidden>
+                        <label for="f-akb-qr-url">QR kod URL</label>
+                        <input type="url" id="f-akb-qr-url" maxlength="200" placeholder="https://www.akbank.com">
+                    </div>
+                    <div class="field full field-akbank-only" hidden>
+                        <label for="f-akb-duzenleyen-sube">Düzenleyen şube</label>
+                        <input type="text" id="f-akb-duzenleyen-sube" maxlength="80">
+                    </div>
+                    <div class="field field-akbank-only" hidden>
+                        <label for="f-akb-borclu-hesap">Borçlu hesap no</label>
+                        <input type="text" id="f-akb-borclu-hesap" maxlength="40">
+                    </div>
+                    <div class="field field-akbank-only" hidden>
+                        <label for="f-akb-musteri-no">Müşteri no (Akbank)</label>
+                        <input type="text" id="f-akb-musteri-no" maxlength="24">
+                    </div>
+                    <div class="field field-akbank-only" hidden>
+                        <label for="f-akb-gonderen-vkn">Gönderen VKN</label>
+                        <input type="text" id="f-akb-gonderen-vkn" maxlength="20">
+                    </div>
+                    <div class="field full field-akbank-only" hidden>
+                        <label for="f-akb-gonderen-adres">Gönderen adres</label>
+                        <textarea id="f-akb-gonderen-adres" maxlength="500" rows="2"></textarea>
+                    </div>
+                    <div class="field full field-akbank-only" hidden>
+                        <label for="f-akb-alici-hesap-satir">Alacaklı hesap no (tam satır)</label>
+                        <input type="text" id="f-akb-alici-hesap-satir" maxlength="80">
+                    </div>
+                    <div class="field full field-akbank-only" hidden>
+                        <label for="f-akb-karsi-sube">Karşı şube</label>
+                        <input type="text" id="f-akb-karsi-sube" maxlength="80">
+                    </div>
+                    <div class="field field-akbank-only" hidden>
+                        <label for="f-akb-alici-vkn-vd">Alıcı VKN / vergi</label>
+                        <input type="text" id="f-akb-alici-vkn-vd" maxlength="40">
+                    </div>
+                    <div class="field full field-akbank-only" hidden>
+                        <label for="f-akb-alici-adres">Alıcı adres</label>
+                        <input type="text" id="f-akb-alici-adres" maxlength="200">
+                    </div>
+                    <div class="field full field-akbank-only" hidden>
+                        <label for="f-akb-iban-aciklama">IBAN altı açıklama satırı</label>
+                        <input type="text" id="f-akb-iban-aciklama" maxlength="120">
+                    </div>
+                    <div class="field field-akbank-only" hidden>
+                        <label for="f-akb-amt-mev-1">MEVDUAT sütun 1</label>
+                        <input type="text" id="f-akb-amt-mev-1" placeholder="201.63 TL">
+                    </div>
+                    <div class="field field-akbank-only" hidden>
+                        <label for="f-akb-amt-mev-2">MEVDUAT sütun 2</label>
+                        <input type="text" id="f-akb-amt-mev-2" placeholder="0.00 TL">
+                    </div>
+                    <div class="field field-akbank-only" hidden>
+                        <label for="f-akb-amt-sch-1">ŞCH sütun 1</label>
+                        <input type="text" id="f-akb-amt-sch-1">
+                    </div>
+                    <div class="field field-akbank-only" hidden>
+                        <label for="f-akb-amt-sch-2">ŞCH sütun 2</label>
+                        <input type="text" id="f-akb-amt-sch-2">
+                    </div>
+                    <div class="field field-akbank-only" hidden>
+                        <label for="f-akb-amt-kom-1">KOMİSYON sütun 1</label>
+                        <input type="text" id="f-akb-amt-kom-1">
+                    </div>
+                    <div class="field field-akbank-only" hidden>
+                        <label for="f-akb-amt-kom-2">KOMİSYON sütun 2</label>
+                        <input type="text" id="f-akb-amt-kom-2">
+                    </div>
+                    <div class="field field-akbank-only" hidden>
+                        <label for="f-akb-amt-bsm-1">BSMV sütun 1</label>
+                        <input type="text" id="f-akb-amt-bsm-1">
+                    </div>
+                    <div class="field field-akbank-only" hidden>
+                        <label for="f-akb-amt-bsm-2">BSMV sütun 2</label>
+                        <input type="text" id="f-akb-amt-bsm-2">
+                    </div>
+                    <div class="field full field-akbank-only" hidden>
+                        <label for="f-akb-tutar-yazi">Tutar yazıyla</label>
+                        <input type="text" id="f-akb-tutar-yazi" maxlength="120">
+                    </div>
+                    <div class="field field-akbank-only" hidden>
+                        <label for="f-akb-valor">Valör (alt bilgi)</label>
+                        <input type="text" id="f-akb-valor" maxlength="40">
+                    </div>
+                    <div class="field field-akbank-only" hidden>
+                        <label for="f-akb-ref-footer">Referans (alt bilgi)</label>
+                        <input type="text" id="f-akb-ref-footer" maxlength="64">
+                    </div>
+                    <div class="field field-akbank-only" hidden>
+                        <label for="f-akb-islem-yapan">İşlemi yapan</label>
+                        <input type="text" id="f-akb-islem-yapan" maxlength="40" placeholder="KENDİSİ">
+                    </div>
+                    <div class="field field-akbank-only" hidden>
+                        <label for="f-akb-islem-yapan-tckn">İşlemi yapan TCKN</label>
+                        <input type="text" id="f-akb-islem-yapan-tckn" maxlength="15">
+                    </div>
+                    <div class="field full field-akbank-only" hidden>
+                        <label for="f-akb-footer-kod">Alt kod satırı</label>
+                        <input type="text" id="f-akb-footer-kod" maxlength="40" placeholder="15029960 / 810018 /">
+                    </div>
+                    <div class="field full field-yapikredi-only" hidden aria-hidden="true">
+                        <span class="field-group-title">Yapı Kredi — Nakit avans dekont alanları</span>
+                    </div>
+                    <div class="field full field-yapikredi-only" hidden>
+                        <label for="f-yk-dekont-baslik">Üst başlık (ortada)</label>
+                        <input type="text" id="f-yk-dekont-baslik" maxlength="80" placeholder="KREDİ KARTI NAKİT AVANS DEKONTU">
+                    </div>
+                    <div class="field field-yapikredi-only" hidden>
+                        <label for="f-yk-musteri-no">Müşteri no</label>
+                        <input type="text" id="f-yk-musteri-no" maxlength="24">
+                    </div>
+                    <div class="field field-yapikredi-only" hidden>
+                        <label for="f-yk-vkn-mask">VKN/TCKN/YKN (görünen)</label>
+                        <input type="text" id="f-yk-vkn-mask" maxlength="32" placeholder="**********">
+                    </div>
+                    <div class="field field-yapikredi-only" hidden>
+                        <label for="f-yk-islem-ref">İşlem ref</label>
+                        <input type="text" id="f-yk-islem-ref" maxlength="32">
+                    </div>
+                    <div class="field field-yapikredi-only" hidden>
+                        <label for="f-yk-barkod">Barkod</label>
+                        <input type="text" id="f-yk-barkod" maxlength="24">
+                    </div>
+                    <div class="field field-yapikredi-only" hidden>
+                        <label for="f-yk-dekont-sira">Dekont sıra no</label>
+                        <input type="text" id="f-yk-dekont-sira" maxlength="24" placeholder="-">
+                    </div>
+                    <div class="field field-yapikredi-only" hidden>
+                        <label for="f-yk-personel-sicil">Personel sicil</label>
+                        <input type="text" id="f-yk-personel-sicil" maxlength="24">
+                    </div>
+                    <div class="field field-yapikredi-only" hidden>
+                        <label for="f-yk-valor">Valör (boşsa işlem tarihinin ertesi günü)</label>
+                        <input type="text" id="f-yk-valor" maxlength="40" placeholder="28/07/2021">
+                    </div>
+                    <div class="field field-yapikredi-only" hidden>
+                        <label for="f-yk-kredi-kart-no">Kredi kart no (maskeli)</label>
+                        <input type="text" id="f-yk-kredi-kart-no" maxlength="32" placeholder="540061******5022">
+                    </div>
+                    <div class="field field-yapikredi-only" hidden>
+                        <label for="f-yk-kart-sahibi">Kredi kartı sahibi</label>
+                        <input type="text" id="f-yk-kart-sahibi" maxlength="80">
+                    </div>
+                    <div class="field full field-yapikredi-only" hidden>
+                        <label for="f-yk-yatirilan-hesap">Yatırılan hesap no (tam satır)</label>
+                        <input type="text" id="f-yk-yatirilan-hesap" maxlength="120">
+                    </div>
+                    <div class="field field-yapikredi-only" hidden>
+                        <label for="f-yk-faiz-orani">Nakit çekim faiz oranı</label>
+                        <input type="text" id="f-yk-faiz-orani" maxlength="80" placeholder="- (KKDF VE BSMV DAHİL DEĞİL)">
+                    </div>
+                    <div class="field field-yapikredi-only" hidden>
+                        <label for="f-yk-nakit-ucret">Nakit çekim ücreti</label>
+                        <input type="text" id="f-yk-nakit-ucret" maxlength="80" placeholder="- (BSMV DAHİL)">
+                    </div>
+                    <div class="field field-yapikredi-only" hidden>
+                        <label for="f-yk-havale-ucret">Havale işlem ücreti</label>
+                        <input type="text" id="f-yk-havale-ucret" maxlength="80" placeholder="- (BSMV DAHİL)">
+                    </div>
+                    <div class="field full field-yapikredi-only" hidden>
+                        <label for="f-yk-aciklama-long">Açıklama (uzun metin)</label>
+                        <textarea id="f-yk-aciklama-long" maxlength="800" rows="3"></textarea>
+                    </div>
+                    <div class="field field-yapikredi-only" hidden>
+                        <label for="f-yk-status-text">Durum satırı (sağ alt)</label>
+                        <input type="text" id="f-yk-status-text" maxlength="120" placeholder="İŞLEMİNİZ AN İTİBARIYLA TAMAMLANMIŞTIR.">
+                    </div>
+                    <div class="field field-yapikredi-only" hidden>
+                        <label for="f-yk-imza-sol">Sol imza kutusu</label>
+                        <input type="text" id="f-yk-imza-sol" maxlength="80">
+                    </div>
+                    <div class="field field-yapikredi-only" hidden>
+                        <label for="f-yk-imza-sag">Sağ imza kutusu</label>
+                        <input type="text" id="f-yk-imza-sag" maxlength="80">
+                    </div>
+                    <div class="field full field-halkbank-only" hidden aria-hidden="true">
+                        <span class="field-group-title">Halkbank — Havale dekont alanları</span>
+                    </div>
+                    <div class="field full field-halkbank-only" hidden>
+                        <label for="f-hb-bimref">BIMREF (SERI-SIRANO)</label>
+                        <input type="text" id="f-hb-bimref" maxlength="120">
+                    </div>
+                    <div class="field full field-halkbank-only" hidden>
+                        <label for="f-hb-referans">Referans</label>
+                        <input type="text" id="f-hb-referans" maxlength="120">
+                    </div>
+                    <div class="field full field-halkbank-only" hidden>
+                        <label for="f-hb-amir-adi">Amir adı</label>
+                        <input type="text" id="f-hb-amir-adi" maxlength="120">
+                    </div>
+                    <div class="field field-halkbank-only" hidden>
+                        <label for="f-hb-amir-no">Amir no</label>
+                        <input type="text" id="f-hb-amir-no" maxlength="40">
+                    </div>
+                    <div class="field field-halkbank-only" hidden>
+                        <label for="f-hb-tarih">Tarih (gg.aa.yyyy)</label>
+                        <input type="text" id="f-hb-tarih" maxlength="20" placeholder="25.06.2024">
+                    </div>
+                    <div class="field field-halkbank-only" hidden>
+                        <label for="f-hb-valor">Valör (gg.aa.yyyy)</label>
+                        <input type="text" id="f-hb-valor" maxlength="20" placeholder="25.06.2024">
+                    </div>
+                    <div class="field field-halkbank-only" hidden>
+                        <label for="f-hb-bsube">B.Şube kodu</label>
+                        <input type="text" id="f-hb-bsube" maxlength="20" placeholder="0805">
+                    </div>
+                    <div class="field field-halkbank-only" hidden>
+                        <label for="f-hb-asube">A.Şube kodu</label>
+                        <input type="text" id="f-hb-asube" maxlength="20" placeholder="0890">
+                    </div>
+                    <div class="field full field-halkbank-only" hidden>
+                        <label for="f-hb-lehdar">Lehdar</label>
+                        <input type="text" id="f-hb-lehdar" maxlength="120" placeholder="ONUR YILDIZ">
+                    </div>
+                    <div class="field full field-halkbank-only" hidden>
+                        <label for="f-hb-lehdar-no">Lehdar no</label>
+                        <input type="text" id="f-hb-lehdar-no" maxlength="40" placeholder="01028869">
+                    </div>
+                    <div class="field full field-halkbank-only" hidden>
+                        <label for="f-hb-iban-mask">IBAN (maske)</label>
+                        <input type="text" id="f-hb-iban-mask" maxlength="80" placeholder="TR88 0001 **** **** **** 0288 69">
+                    </div>
+                    <div class="field full field-halkbank-only" hidden>
+                        <label for="f-hb-sube-adres">Şube / adres</label>
+                        <input type="text" id="f-hb-sube-adres" maxlength="120" placeholder="YEŞİLKÖY / İSTANBUL">
+                    </div>
+                    <div class="field field-halkbank-only" hidden>
+                        <label for="f-hb-odeme-turu">Ödeme turu</label>
+                        <input type="text" id="f-hb-odeme-turu" maxlength="20" placeholder="99">
+                    </div>
+                    <div class="field field-halkbank-only" hidden>
+                        <label for="f-hb-tutar-yazi">Tutar yazı satırı (opsiyonel)</label>
+                        <input type="text" id="f-hb-tutar-yazi" maxlength="200">
+                    </div>
+                    <div class="field full field-vakifbank-only" hidden aria-hidden="true">
+                        <span class="field-group-title">VakıfBank — FAST dekont alanları</span>
+                    </div>
+                    <div class="field full field-vakifbank-only" hidden>
+                        <label for="f-vb-islem-turu">İşlem türü</label>
+                        <input type="text" id="f-vb-islem-turu" maxlength="80" placeholder="FAST Anlık Ödeme">
+                    </div>
+                    <div class="field field-vakifbank-only" hidden>
+                        <label for="f-vb-hesap-no">Hesap no</label>
+                        <input type="text" id="f-vb-hesap-no" maxlength="40">
+                    </div>
+                    <div class="field field-vakifbank-only" hidden>
+                        <label for="f-vb-islem-no">İşlem no</label>
+                        <input type="text" id="f-vb-islem-no" maxlength="32">
+                    </div>
+                    <div class="field field-vakifbank-only" hidden>
+                        <label for="f-vb-fis-no">Fiş no</label>
+                        <input type="text" id="f-vb-fis-no" maxlength="12" placeholder="0">
+                    </div>
+                    <div class="field full field-vakifbank-only" hidden>
+                        <label for="f-vb-islem-aciklama">İşlem açıklaması (uzun metin)</label>
+                        <textarea id="f-vb-islem-aciklama" maxlength="800" rows="4"></textarea>
+                    </div>
+                    <div class="field field-vakifbank-only" hidden>
+                        <label for="f-vb-bank-title">Üst şerit başlık</label>
+                        <input type="text" id="f-vb-bank-title" maxlength="40" placeholder="VAKIFBANK">
+                    </div>
+                    <div class="field field-vakifbank-only" hidden>
+                        <label for="f-vb-branchless-label">Sağ üst etiket</label>
+                        <input type="text" id="f-vb-branchless-label" maxlength="40" placeholder="Şubesiz Bankacılık">
+                    </div>
+                    <div class="field full field-qnb-only" hidden aria-hidden="true">
+                        <span class="field-group-title">QNB Finansbank — Dekont alanları</span>
+                    </div>
+                    <div class="field full field-qnb-only" hidden>
+                        <label for="f-qnb-musteri-ad">Müşteri adı (sol üst)</label>
+                        <input type="text" id="f-qnb-musteri-ad" maxlength="120">
+                    </div>
+                    <div class="field full field-qnb-only" hidden>
+                        <label for="f-qnb-musteri-adres">Adres (satır satır)</label>
+                        <textarea id="f-qnb-musteri-adres" maxlength="500" rows="3"></textarea>
+                    </div>
+                    <div class="field field-qnb-only" hidden>
+                        <label for="f-qnb-musteri-no">Müşteri no</label>
+                        <input type="text" id="f-qnb-musteri-no" maxlength="24">
+                    </div>
+                    <div class="field field-qnb-only" hidden>
+                        <label for="f-qnb-vkn">VKN / TCKN</label>
+                        <input type="text" id="f-qnb-vkn" maxlength="32">
+                    </div>
+                    <div class="field field-qnb-only" hidden>
+                        <label for="f-qnb-vergi-dairesi">Vergi dairesi</label>
+                        <input type="text" id="f-qnb-vergi-dairesi" maxlength="80">
+                    </div>
+                    <div class="field field-qnb-only" hidden>
+                        <label for="f-qnb-islem-yeri">İşlem yeri</label>
+                        <input type="text" id="f-qnb-islem-yeri" maxlength="80">
+                    </div>
+                    <div class="field full field-qnb-only" hidden>
+                        <label for="f-qnb-islem-tarih-saat">İşlem tarihi (tam metin, boşsa ortak tarih/saat)</label>
+                        <input type="text" id="f-qnb-islem-tarih-saat" maxlength="40" placeholder="12/02/2022 15:26:35">
+                    </div>
+                    <div class="field full field-qnb-only" hidden>
+                        <span class="field-group-title">Hareket tablosu — satır 1</span>
+                    </div>
+                    <div class="field full field-qnb-only" hidden>
+                        <label for="f-qnb-r1-iban">Satır 1 IBAN</label>
+                        <input type="text" id="f-qnb-r1-iban" maxlength="40">
+                    </div>
+                    <div class="field full field-qnb-only" hidden>
+                        <label for="f-qnb-r1-aciklama">Satır 1 açıklama</label>
+                        <input type="text" id="f-qnb-r1-aciklama" maxlength="200">
+                    </div>
+                    <div class="field field-qnb-only" hidden>
+                        <label for="f-qnb-r1-ba">Satır 1 B/A</label>
+                        <input type="text" id="f-qnb-r1-ba" maxlength="4" placeholder="B">
+                    </div>
+                    <div class="field field-qnb-only" hidden>
+                        <label for="f-qnb-r1-para">Satır 1 para cinsi</label>
+                        <input type="text" id="f-qnb-r1-para" maxlength="8" placeholder="TL">
+                    </div>
+                    <div class="field field-qnb-only" hidden>
+                        <label for="f-qnb-r1-tutar">Satır 1 tutar</label>
+                        <input type="text" id="f-qnb-r1-tutar" maxlength="24">
+                    </div>
+                    <div class="field full field-qnb-only" hidden>
+                        <span class="field-group-title">Hareket tablosu — satır 2</span>
+                    </div>
+                    <div class="field full field-qnb-only" hidden>
+                        <label for="f-qnb-r2-iban">Satır 2 IBAN</label>
+                        <input type="text" id="f-qnb-r2-iban" maxlength="40">
+                    </div>
+                    <div class="field full field-qnb-only" hidden>
+                        <label for="f-qnb-r2-aciklama">Satır 2 açıklama</label>
+                        <input type="text" id="f-qnb-r2-aciklama" maxlength="200">
+                    </div>
+                    <div class="field field-qnb-only" hidden>
+                        <label for="f-qnb-r2-ba">Satır 2 B/A</label>
+                        <input type="text" id="f-qnb-r2-ba" maxlength="4">
+                    </div>
+                    <div class="field field-qnb-only" hidden>
+                        <label for="f-qnb-r2-para">Satır 2 para cinsi</label>
+                        <input type="text" id="f-qnb-r2-para" maxlength="8">
+                    </div>
+                    <div class="field field-qnb-only" hidden>
+                        <label for="f-qnb-r2-tutar">Satır 2 tutar</label>
+                        <input type="text" id="f-qnb-r2-tutar" maxlength="24">
+                    </div>
+                    <div class="field full field-qnb-only" hidden>
+                        <span class="field-group-title">Hareket tablosu — satır 3</span>
+                    </div>
+                    <div class="field full field-qnb-only" hidden>
+                        <label for="f-qnb-r3-iban">Satır 3 IBAN</label>
+                        <input type="text" id="f-qnb-r3-iban" maxlength="40">
+                    </div>
+                    <div class="field full field-qnb-only" hidden>
+                        <label for="f-qnb-r3-aciklama">Satır 3 açıklama</label>
+                        <input type="text" id="f-qnb-r3-aciklama" maxlength="200">
+                    </div>
+                    <div class="field field-qnb-only" hidden>
+                        <label for="f-qnb-r3-ba">Satır 3 B/A</label>
+                        <input type="text" id="f-qnb-r3-ba" maxlength="4">
+                    </div>
+                    <div class="field field-qnb-only" hidden>
+                        <label for="f-qnb-r3-para">Satır 3 para cinsi</label>
+                        <input type="text" id="f-qnb-r3-para" maxlength="8">
+                    </div>
+                    <div class="field field-qnb-only" hidden>
+                        <label for="f-qnb-r3-tutar">Satır 3 tutar</label>
+                        <input type="text" id="f-qnb-r3-tutar" maxlength="24">
+                    </div>
+                    <div class="field full field-qnb-only" hidden>
+                        <label for="f-qnb-detay">Alt detay metni (boşsa ortak alanlardan üretilir)</label>
+                        <textarea id="f-qnb-detay" maxlength="1200" rows="6"></textarea>
+                    </div>
+                    <div class="field field-qnb-only" hidden>
+                        <label for="f-qnb-sira-no">Sıra no</label>
+                        <input type="text" id="f-qnb-sira-no" maxlength="40">
+                    </div>
+                    <div class="field field-qnb-only" hidden>
+                        <label for="f-qnb-islem-yapan">İşlemi yapan</label>
+                        <input type="text" id="f-qnb-islem-yapan" maxlength="80">
+                    </div>
+                    <div class="field field-qnb-only" hidden>
+                        <label for="f-qnb-fis-no-alt">Fiş no (alt)</label>
+                        <input type="text" id="f-qnb-fis-no-alt" maxlength="40">
+                    </div>
+                    <div class="field field-qnb-only" hidden>
+                        <label for="f-qnb-sube-satir1">Şube satır 1</label>
+                        <input type="text" id="f-qnb-sube-satir1" maxlength="80">
+                    </div>
+                    <div class="field field-qnb-only" hidden>
+                        <label for="f-qnb-sube-satir2">Şube satır 2</label>
+                        <input type="text" id="f-qnb-sube-satir2" maxlength="80">
+                    </div>
+                    <div class="field field-denizbank-only" hidden>
+                        <label for="f-dn-right-tel">Sağ üst şube tel</label>
+                        <input type="text" id="f-dn-right-tel" maxlength="40">
+                    </div>
+                    <div class="field field-denizbank-only" hidden>
+                        <label for="f-dn-right-ref">Sağ üst referans satırı</label>
+                        <input type="text" id="f-dn-right-ref" maxlength="80">
+                    </div>
+                    <div class="field field-denizbank-only" hidden>
+                        <label for="f-dn-sayin">SAYIN (ad)</label>
+                        <input type="text" id="f-dn-sayin" maxlength="120">
+                    </div>
+                    <div class="field field-denizbank-only" hidden>
+                        <label for="f-dn-vkn-line">VKN/TCKN satırı</label>
+                        <input type="text" id="f-dn-vkn-line" maxlength="80">
+                    </div>
+                    <div class="field full field-denizbank-only" hidden>
+                        <label for="f-dn-islem-turu">İşlem türü</label>
+                        <input type="text" id="f-dn-islem-turu" maxlength="120">
+                    </div>
+                    <div class="field field-denizbank-only" hidden>
+                        <label for="f-dn-hesap-no">Hesap numarası (TRY vb.)</label>
+                        <input type="text" id="f-dn-hesap-no" maxlength="80">
+                    </div>
+                    <div class="field full field-denizbank-only" hidden>
+                        <label for="f-dn-iban-line">IBAN (gösterim; boşsa ortak gönderen IBAN)</label>
+                        <input type="text" id="f-dn-iban-line" maxlength="80">
+                    </div>
+                    <div class="field full field-denizbank-only" hidden>
+                        <label for="f-dn-musteri-adi-full">Müşteri adı (üst tablo)</label>
+                        <input type="text" id="f-dn-musteri-adi-full" maxlength="120">
+                    </div>
+                    <div class="field field-denizbank-only" hidden>
+                        <label for="f-dn-islem-tarihi-text">İşlem tarihi (metin; boşsa ortak tarih)</label>
+                        <input type="text" id="f-dn-islem-tarihi-text" maxlength="40" placeholder="15.10.2018">
+                    </div>
+                    <div class="field field-denizbank-only" hidden>
+                        <label for="f-dn-valor-text">Valör tarihi (metin)</label>
+                        <input type="text" id="f-dn-valor-text" maxlength="40" placeholder="15.10.2018">
+                    </div>
+                    <div class="field full field-denizbank-only" hidden>
+                        <label for="f-dn-alici-banka">Alıcı banka</label>
+                        <input type="text" id="f-dn-alici-banka" maxlength="120">
+                    </div>
+                    <div class="field full field-denizbank-only" hidden>
+                        <label for="f-dn-alici-sube">Alıcı şube</label>
+                        <input type="text" id="f-dn-alici-sube" maxlength="120">
+                    </div>
+                    <div class="field full field-denizbank-only" hidden>
+                        <label for="f-dn-alici-iban-line">Alıcı IBAN (boşsa ortak alıcı IBAN)</label>
+                        <input type="text" id="f-dn-alici-iban-line" maxlength="80">
+                    </div>
+                    <div class="field field-denizbank-only" hidden>
+                        <label for="f-dn-alici-adi">Alıcı adı (detay)</label>
+                        <input type="text" id="f-dn-alici-adi" maxlength="120">
+                    </div>
+                    <div class="field field-denizbank-only" hidden>
+                        <label for="f-dn-alici-vkn">Alıcı VKN</label>
+                        <input type="text" id="f-dn-alici-vkn" maxlength="40">
+                    </div>
+                    <div class="field field-denizbank-only" hidden>
+                        <label for="f-dn-tutar-text">Tutar (metin)</label>
+                        <input type="text" id="f-dn-tutar-text" maxlength="40">
+                    </div>
+                    <div class="field full field-denizbank-only" hidden>
+                        <label for="f-dn-masraf-text">Masraf satırı</label>
+                        <input type="text" id="f-dn-masraf-text" maxlength="120">
+                    </div>
+                    <div class="field full field-denizbank-only" hidden>
+                        <label for="f-dn-aciklama-table">Açıklama (detay tablosu)</label>
+                        <input type="text" id="f-dn-aciklama-table" maxlength="200">
+                    </div>
+                    <div class="field field-denizbank-only" hidden>
+                        <label for="f-dn-summary-hesap">Özet hesap no</label>
+                        <input type="text" id="f-dn-summary-hesap" maxlength="80">
+                    </div>
+                    <div class="field field-denizbank-only" hidden>
+                        <label for="f-dn-summary-toplam">Özet toplam borç (TL)</label>
+                        <input type="text" id="f-dn-summary-toplam" maxlength="40">
+                    </div>
+                    <div class="field field-denizbank-only" hidden>
+                        <label for="f-dn-eft-sorgu">EFT sorgu no</label>
+                        <input type="text" id="f-dn-eft-sorgu" maxlength="40">
+                    </div>
+                    <div class="field full field-denizbank-only" hidden>
+                        <label for="f-dn-watermark">Filigran metni (opsiyonel)</label>
+                        <input type="text" id="f-dn-watermark" maxlength="40">
+                    </div>
+                    <div class="field full field-ing-only" hidden>
+                        <label for="f-ing-dekont-baslik">Üst başlık</label>
+                        <input type="text" id="f-ing-dekont-baslik" maxlength="80" placeholder="Dekont - ATM İŞLEMLERİ">
+                    </div>
+                    <div class="field full field-ing-only" hidden>
+                        <label for="f-ing-sub-header">Şube / üst satır</label>
+                        <input type="text" id="f-ing-sub-header" maxlength="120">
+                    </div>
+                    <div class="field field-ing-only" hidden>
+                        <label for="f-ing-sayin">Sayın (ad soyad)</label>
+                        <input type="text" id="f-ing-sayin" maxlength="120">
+                    </div>
+                    <div class="field field-ing-only" hidden>
+                        <label for="f-ing-vergi-dairesi">Vergi dairesi</label>
+                        <input type="text" id="f-ing-vergi-dairesi" maxlength="80">
+                    </div>
+                    <div class="field field-ing-only" hidden>
+                        <label for="f-ing-vergi-no">Vergi no</label>
+                        <input type="text" id="f-ing-vergi-no" maxlength="20">
+                    </div>
+                    <div class="field field-ing-only" hidden>
+                        <label for="f-ing-dekont-no-override">Dekont no (boşsa ortak no)</label>
+                        <input type="text" id="f-ing-dekont-no-override" maxlength="32">
+                    </div>
+                    <div class="field full field-ing-only" hidden>
+                        <label for="f-ing-basim-tarihi">Basım tarihi (tam metin; boşsa ortak tarih+saat)</label>
+                        <input type="text" id="f-ing-basim-tarihi" maxlength="80" placeholder="13/03/2024 - 23:21:19">
+                    </div>
+                    <div class="field full field-ing-only" hidden>
+                        <label for="f-ing-fis-bilgileri">Fiş bilgileri</label>
+                        <input type="text" id="f-ing-fis-bilgileri" maxlength="120">
+                    </div>
+                    <div class="field field-ing-only" hidden>
+                        <label for="f-ing-islem-tarihi-text">İşlem tarihi (tablo; boşsa ortak tarih)</label>
+                        <input type="text" id="f-ing-islem-tarihi-text" maxlength="40">
+                    </div>
+                    <div class="field field-ing-only" hidden>
+                        <label for="f-ing-hesap-sahibi">Kullanılan hesap adı</label>
+                        <input type="text" id="f-ing-hesap-sahibi" maxlength="120">
+                    </div>
+                    <div class="field full field-ing-only" hidden>
+                        <label for="f-ing-iban-goster">IBAN (maskeli gösterim; boşsa gönderen IBAN’dan)</label>
+                        <input type="text" id="f-ing-iban-goster" maxlength="80">
+                    </div>
+                    <div class="field field-ing-only" hidden>
+                        <label for="f-ing-tutar-metin">İşlem tutarı metni</label>
+                        <input type="text" id="f-ing-tutar-metin" maxlength="40" placeholder="160,35 TL">
+                    </div>
+                    <div class="field field-ing-only" hidden>
+                        <label for="f-ing-toplam-metin">Toplam tutar metni</label>
+                        <input type="text" id="f-ing-toplam-metin" maxlength="40">
+                    </div>
+                    <div class="field full field-ing-only" hidden>
+                        <label for="f-ing-tutar-yazi">Tutar yazıyla</label>
+                        <input type="text" id="f-ing-tutar-yazi" maxlength="120">
+                    </div>
+                    <div class="field full field-ing-only" hidden>
+                        <label for="f-ing-aciklama-multiline">Açıklama (satır satır)</label>
+                        <textarea id="f-ing-aciklama-multiline" rows="3" maxlength="800"></textarea>
+                    </div>
+                    <div class="field field-ing-only" hidden>
+                        <label for="f-ing-telefon">Telefon (alt bilgi)</label>
+                        <input type="text" id="f-ing-telefon" maxlength="40">
+                    </div>
+                    <div class="field field-ing-only" hidden>
+                        <label for="f-ing-website">Web sitesi</label>
+                        <input type="text" id="f-ing-website" maxlength="80">
+                    </div>
+                    <div class="field full field-ing-only" hidden>
+                        <label for="f-ing-footer-yasal">Alt bilgi yasal metin</label>
+                        <textarea id="f-ing-footer-yasal" rows="3" maxlength="1200"></textarea>
+                    </div>
+                    <div class="field full field-teb-only" hidden>
+                        <label for="f-teb-bank-info">Banka bilgi bloğu (boşsa örnek metin)</label>
+                        <textarea id="f-teb-bank-info" rows="5" maxlength="800" placeholder="Satır satır"></textarea>
+                    </div>
+                    <div class="field full field-teb-only" hidden>
+                        <label for="f-teb-title">Dekont başlığı</label>
+                        <input type="text" id="f-teb-title" maxlength="80" placeholder="BANKALARARASI PARA TRANSFER DEKONTU">
+                    </div>
+                    <div class="field field-teb-only" hidden>
+                        <label for="f-teb-tarih-saat">Tarih-saat (tam metin; boşsa ortak alan)</label>
+                        <input type="text" id="f-teb-tarih-saat" maxlength="80" placeholder="16/07/2021 12.18">
+                    </div>
+                    <div class="field field-teb-only" hidden>
+                        <label for="f-teb-islem-no">İşlem no</label>
+                        <input type="text" id="f-teb-islem-no" maxlength="60">
+                    </div>
+                    <div class="field field-teb-only" hidden>
+                        <label for="f-teb-musteri-no">Müşteri numarası</label>
+                        <input type="text" id="f-teb-musteri-no" maxlength="40">
+                    </div>
+                    <div class="field field-teb-only" hidden>
+                        <label for="f-teb-hesap-no">Hesap numarası</label>
+                        <input type="text" id="f-teb-hesap-no" maxlength="40">
+                    </div>
+                    <div class="field full field-teb-only" hidden>
+                        <label for="f-teb-iban">IBAN (boşsa gönderen IBAN)</label>
+                        <input type="text" id="f-teb-iban" maxlength="50">
+                    </div>
+                    <div class="field field-teb-only" hidden>
+                        <label for="f-teb-eft-no">EFT no</label>
+                        <input type="text" id="f-teb-eft-no" maxlength="30">
+                    </div>
+                    <div class="field field-teb-only" hidden>
+                        <label for="f-teb-hesap-sahibi">Hesap sahibi (boşsa gönderen)</label>
+                        <input type="text" id="f-teb-hesap-sahibi" maxlength="120">
+                    </div>
+                    <div class="field full field-teb-only" hidden>
+                        <label for="f-teb-hesap-subesi">Hesap şubesi</label>
+                        <input type="text" id="f-teb-hesap-subesi" maxlength="80">
+                    </div>
+                    <div class="field full field-teb-only" hidden>
+                        <label for="f-teb-karsi-banka-satir">Karşı banka / şube (üst tutar satırı sol)</label>
+                        <input type="text" id="f-teb-karsi-banka-satir" maxlength="120">
+                    </div>
+                    <div class="field field-teb-only" hidden>
+                        <label for="f-teb-valor">Valör (kısa tarih; boşsa işlem tarihi)</label>
+                        <input type="text" id="f-teb-valor" maxlength="20" placeholder="16/07/21">
+                    </div>
+                    <div class="field field-teb-only" hidden>
+                        <label for="f-teb-tutar-satir">Tutar (sağ sütun)</label>
+                        <input type="text" id="f-teb-tutar-satir" maxlength="40" placeholder="150.000,00-">
+                    </div>
+                    <div class="field full field-teb-only" hidden>
+                        <label for="f-teb-odeme-cumlesi">Ödeme cümlesi (boşsa otomatik)</label>
+                        <input type="text" id="f-teb-odeme-cumlesi" maxlength="200">
+                    </div>
+                    <div class="field full field-teb-only" hidden>
+                        <label for="f-teb-alacakli-adi">Alacaklı adı (boşsa ortak alıcı)</label>
+                        <input type="text" id="f-teb-alacakli-adi" maxlength="120">
+                    </div>
+                    <div class="field full field-teb-only" hidden>
+                        <label for="f-teb-alacakli-hesap">Alacaklı hesap/IBAN</label>
+                        <input type="text" id="f-teb-alacakli-hesap" maxlength="50">
+                    </div>
+                    <div class="field full field-teb-only" hidden>
+                        <label for="f-teb-alacakli-banka">Alacaklı banka</label>
+                        <input type="text" id="f-teb-alacakli-banka" maxlength="120">
+                    </div>
+                    <div class="field field-teb-only" hidden>
+                        <label for="f-teb-sayin">Sayın (boşsa gönderen)</label>
+                        <input type="text" id="f-teb-sayin" maxlength="120">
+                    </div>
+                    <div class="field full field-teb-only" hidden>
+                        <label for="f-teb-aciklama">Açıklama (alt bölüm; boşsa ortak açıklama)</label>
+                        <textarea id="f-teb-aciklama" rows="3" maxlength="500"></textarea>
+                    </div>
+                    <div class="field field-teb-only" hidden>
+                        <label for="f-teb-islem-tipi">İşlem tipi</label>
+                        <input type="text" id="f-teb-islem-tipi" maxlength="60">
+                    </div>
+                    <div class="field full field-teb-only" hidden>
+                        <label for="f-teb-islem-yeri">İşlem yeri</label>
+                        <input type="text" id="f-teb-islem-yeri" maxlength="120">
+                    </div>
+                    <div class="field field-teb-only" hidden>
+                        <label for="f-teb-footer-irtibat">Alt irtibat numarası</label>
+                        <input type="text" id="f-teb-footer-irtibat" maxlength="40">
+                    </div>
+                    </div>
+                    <p class="form-hint form-hint--bank-empty" id="bankEmptyHint" hidden>Bu banka için ekstra alan tanımlı değildir; yalnızca ortak bilgiler kullanılır.</p>
+                </div>
+                <div class="actions">
+                    <button type="button" class="btn btn-primary" id="btnCreate">Dekont oluştur</button>
+                    <button type="button" class="btn btn-ghost" id="btnPdf">PDF indir</button>
+                    <button type="button" class="btn btn-ghost" id="btnPrint">Yazdır</button>
+                    <button type="button" class="btn btn-ghost" id="btnReset">Örnek verileri sıfırla</button>
+                </div>
+            </form>
+        </section>
+        <section class="panel-preview" id="sectionPreview" aria-label="Önizleme">
+            <h3>Önizleme</h3>
+            <div class="preview-scale-wrap">
+                <div id="printArea"></div>
+            </div>
+        </section>
+        </div>
+        <div id="earsivWorkspace" class="main-workspace" hidden>
+            <section class="panel-form earsiv-panel" id="sectionEarsivForm" aria-labelledby="earsivFormTitle">
+                <h2 id="earsivFormTitle">e-Arşiv Fatura</h2>
+                <form id="earsivForm" action="#" method="post" onsubmit="return false;">
+                    <div class="form-block">
+                        <h3 class="form-block-title">Satıcı</h3>
+                        <div class="form-grid">
+                            <div class="field full">
+                                <label for="ea-satici-unvan">Ünvan</label>
+                                <input type="text" id="ea-satici-unvan" maxlength="200" autocomplete="organization">
+                            </div>
+                            <div class="field full">
+                                <label for="ea-satici-adres">Adres (satır satır)</label>
+                                <textarea id="ea-satici-adres" rows="4" maxlength="800"></textarea>
+                            </div>
+                            <div class="field">
+                                <label for="ea-satici-tel">Tel</label>
+                                <input type="text" id="ea-satici-tel" maxlength="40">
+                            </div>
+                            <div class="field">
+                                <label for="ea-satici-email">E-posta</label>
+                                <input type="email" id="ea-satici-email" maxlength="120">
+                            </div>
+                            <div class="field">
+                                <label for="ea-satici-vd">Vergi dairesi</label>
+                                <input type="text" id="ea-satici-vd" maxlength="120">
+                            </div>
+                            <div class="field">
+                                <label for="ea-satici-tckn">TCKN</label>
+                                <input type="text" id="ea-satici-tckn" maxlength="20" placeholder="----------------">
+                            </div>
+                            <div class="field full">
+                                <label for="ea-logo-url">Özel logo URL (boşsa varsayılan e-Arşiv görseli)</label>
+                                <input type="url" id="ea-logo-url" maxlength="500" placeholder="Boş bırakın veya kendi görselinizi girin">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-block">
+                        <h3 class="form-block-title">Alıcı (SAYIN)</h3>
+                        <div class="form-grid">
+                            <div class="field full">
+                                <label for="ea-musteri-unvan">Ad / ünvan</label>
+                                <input type="text" id="ea-musteri-unvan" maxlength="200">
+                            </div>
+                            <div class="field full">
+                                <label for="ea-musteri-adres">Adres</label>
+                                <textarea id="ea-musteri-adres" rows="3" maxlength="500"></textarea>
+                            </div>
+                            <div class="field">
+                                <label for="ea-musteri-sehir">İl / ilçe</label>
+                                <input type="text" id="ea-musteri-sehir" maxlength="120">
+                            </div>
+                            <div class="field">
+                                <label for="ea-musteri-ulke">Ülke</label>
+                                <input type="text" id="ea-musteri-ulke" maxlength="80">
+                            </div>
+                            <div class="field">
+                                <label for="ea-musteri-email">E-posta</label>
+                                <input type="email" id="ea-musteri-email" maxlength="120">
+                            </div>
+                            <div class="field">
+                                <label for="ea-musteri-tel">Tel</label>
+                                <input type="text" id="ea-musteri-tel" maxlength="40">
+                            </div>
+                            <div class="field">
+                                <label for="ea-musteri-tckn">TCKN</label>
+                                <input type="text" id="ea-musteri-tckn" maxlength="20">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-block">
+                        <h3 class="form-block-title">Fatura bilgileri</h3>
+                        <div class="form-grid">
+                            <div class="field">
+                                <label for="ea-ozellestirme">Özelleştirme no</label>
+                                <input type="text" id="ea-ozellestirme" maxlength="40">
+                            </div>
+                            <div class="field">
+                                <label for="ea-senaryo">Senaryo</label>
+                                <input type="text" id="ea-senaryo" maxlength="40">
+                            </div>
+                            <div class="field">
+                                <label for="ea-fatura-tipi">Fatura tipi</label>
+                                <input type="text" id="ea-fatura-tipi" maxlength="40">
+                            </div>
+                            <div class="field">
+                                <label for="ea-fatura-no">Fatura no</label>
+                                <input type="text" id="ea-fatura-no" maxlength="60">
+                            </div>
+                            <div class="field full">
+                                <label for="ea-fatura-tarihi">Fatura tarihi</label>
+                                <input type="text" id="ea-fatura-tarihi" maxlength="80" placeholder="10-01-2026 17:10:00">
+                            </div>
+                            <div class="field full">
+                                <label for="ea-ettn">ETTN</label>
+                                <input type="text" id="ea-ettn" maxlength="80">
+                            </div>
+                            <div class="field full">
+                                <label for="ea-qr-data">QR içeriği (URL / metin)</label>
+                                <input type="text" id="ea-qr-data" maxlength="500">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-block">
+                        <h3 class="form-block-title">Kalemler</h3>
+                        <table class="earsiv-editor-table">
+                            <thead>
+                                <tr>
+                                    <th>Mal / hizmet</th>
+                                    <th>Miktar</th>
+                                    <th>Birim</th>
+                                    <th>Birim fiyat</th>
+                                    <th>KDV %</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="earsivItemsBody"></tbody>
+                        </table>
+                        <button type="button" class="btn btn-ghost" id="earsivAddRow">Satır ekle</button>
+                        <div class="field" style="margin-top:0.75rem">
+                            <label for="ea-iskonto">Toplam iskonto (TL)</label>
+                            <input type="text" id="ea-iskonto" placeholder="0,00" inputmode="decimal">
+                        </div>
+                    </div>
+                    <div class="form-block">
+                        <h3 class="form-block-title">Alt not &amp; iade</h3>
+                        <div class="form-grid">
+                            <div class="field full">
+                                <label for="ea-footer-not">Alt kutu notu</label>
+                                <textarea id="ea-footer-not" rows="3" maxlength="1000"></textarea>
+                            </div>
+                            <div class="field">
+                                <label for="ea-iade-eden-ad">İade eden — ad</label>
+                                <input type="text" id="ea-iade-eden-ad" maxlength="120">
+                            </div>
+                            <div class="field">
+                                <label for="ea-iade-eden-adres">İade eden — adres</label>
+                                <input type="text" id="ea-iade-eden-adres" maxlength="200">
+                            </div>
+                            <div class="field">
+                                <label for="ea-iade-eden-imza">İade eden — imza</label>
+                                <input type="text" id="ea-iade-eden-imza" maxlength="80">
+                            </div>
+                            <div class="field">
+                                <label for="ea-iade-urun">İade edilen — ürün</label>
+                                <input type="text" id="ea-iade-urun" maxlength="120">
+                            </div>
+                            <div class="field">
+                                <label for="ea-iade-cins">Cinsi</label>
+                                <input type="text" id="ea-iade-cins" maxlength="80">
+                            </div>
+                            <div class="field">
+                                <label for="ea-iade-miktar">Miktar</label>
+                                <input type="text" id="ea-iade-miktar" maxlength="40">
+                            </div>
+                            <div class="field">
+                                <label for="ea-iade-bf">Birim fiyat</label>
+                                <input type="text" id="ea-iade-bf" maxlength="40">
+                            </div>
+                            <div class="field">
+                                <label for="ea-iade-tutar">Tutar</label>
+                                <input type="text" id="ea-iade-tutar" maxlength="40">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="actions earsiv-panel-actions">
+                        <button type="button" class="btn btn-primary" id="earsivBtnCreate">Faturayı güncelle</button>
+                        <button type="button" class="btn btn-ghost" id="earsivBtnPdf">PDF indir</button>
+                        <button type="button" class="btn btn-ghost" id="earsivBtnPrint">Yazdır</button>
+                        <button type="button" class="btn btn-ghost" id="earsivBtnReset">Örnek verileri sıfırla</button>
+                    </div>
+                </form>
+            </section>
+            <section class="panel-preview" id="sectionEarsivPreview" aria-label="e-Arşiv önizleme">
+                <h3>Önizleme</h3>
+                <div class="preview-scale-wrap">
+                    <div id="earsivPrintArea"></div>
+                </div>
+            </section>
+        </div>
+    </div>
+    </div>
+</div>

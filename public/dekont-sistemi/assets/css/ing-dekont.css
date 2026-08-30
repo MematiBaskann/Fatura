@@ -1,0 +1,155 @@
+/* ING ATM dekont — .ing-slip-scope */
+.ing-slip-scope {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #f0f0f0;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  color: #333;
+  box-sizing: border-box;
+}
+
+.ing-slip-scope *,
+.ing-slip-scope *::before,
+.ing-slip-scope *::after {
+  box-sizing: border-box;
+}
+
+.ing-slip-scope .ing-dekont-container {
+  width: 800px;
+  max-width: 100%;
+  background-color: #fff;
+  padding: 40px;
+  border: 1px solid #ddd;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.ing-slip-scope .ing-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-bottom: 3px solid #ff6200;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+  gap: 16px;
+}
+
+.ing-slip-scope .ing-logo img,
+.ing-slip-scope .ing-logo-img {
+  height: auto;
+  max-height: 48px;
+  width: auto;
+  max-width: 220px;
+  object-fit: contain;
+  display: block;
+}
+
+.ing-slip-scope .ing-baslik {
+  font-size: 24px;
+  color: #333;
+  font-weight: bold;
+  text-align: right;
+}
+
+.ing-slip-scope .ing-sub-header {
+  text-align: right;
+  font-size: 11px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.ing-slip-scope .ing-sayin-text {
+  font-size: 22px;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.ing-slip-scope .ing-info-table {
+  width: 100%;
+  border: 1px solid #999;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  font-size: 13px;
+}
+
+.ing-slip-scope .ing-info-table td {
+  padding: 8px;
+  border: 1px solid #ccc;
+  vertical-align: top;
+}
+
+.ing-slip-scope .ing-label {
+  font-weight: bold;
+  width: 120px;
+}
+
+.ing-slip-scope .ing-content-box {
+  border: 1px solid #999;
+  padding: 15px;
+  font-size: 14px;
+  margin-bottom: 40px;
+}
+
+.ing-slip-scope .ing-row {
+  display: flex;
+  margin-bottom: 10px;
+  align-items: flex-start;
+}
+
+.ing-slip-scope .ing-row-label {
+  width: 140px;
+  font-weight: bold;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+.ing-slip-scope .ing-row-value {
+  flex: 1;
+  min-width: 0;
+}
+
+.ing-slip-scope .ing-tutar-section {
+  border-top: 1px solid #ccc;
+  padding-top: 15px;
+  margin-top: 15px;
+}
+
+.ing-slip-scope .ing-toplam-tutar {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.ing-slip-scope .ing-yazi-ile {
+  margin-left: 140px;
+  font-size: 13px;
+  margin-top: 5px;
+}
+
+.ing-slip-scope .ing-aciklama-block {
+  font-size: 13px;
+  margin-bottom: 24px;
+}
+
+.ing-slip-scope .ing-footer {
+  margin-top: 100px;
+  border-top: 3px solid #ff6200;
+  padding-top: 10px;
+  font-size: 10px;
+  color: #333;
+  line-height: 1.4;
+}
+
+.ing-slip-scope .ing-phone {
+  color: #ff6200;
+  font-weight: bold;
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.ing-slip-scope .ing-website {
+  color: #ff6200;
+  font-weight: bold;
+  text-decoration: none;
+  display: block;
+  margin-bottom: 5px;
+}
