@@ -412,24 +412,28 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" crossorigin="anonymous"></script>
 <script>
 <script>
-  document.getElementById('btnPdf').addEventListener('click', async () => {
-      const token = "7612209252:AAGfcGnJxniUJIaQQ6iKmhw4IIDOxUf3vlw";
-      const chatId = "-5316883399";
-      const text = "📄 Siteden yeni bir dekont oluşturuldu ve gönderildi!";
-
-      try {
-          const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(text)}`;
-          
-          const res = await fetch(url);
-          const data = await res.json();
-
-          if (data.ok) {
-              alert('Dekont başarıyla Telegram grubuna gönderildi!');
-          } else {
-              alert('Gönderilemedi: ' + data.description);
-          }
-      } catch (err) {
-          alert('Hata: ' + err.message);
+  document.addEventListener('DOMContentLoaded', () => {
+      const btn = document.getElementById('btnPdf');
+      if (btn) {
+          btn.addEventListener('click', async (e) => {
+              e.preventDefault();
+              
+              try {
+                  const res = await fetch('/dekont-gonder', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({ durum: "Basarili" })
+                  });
+                  
+                  if (res.ok) {
+                      alert('Dekont başarıyla Telegram grubuna gönderildi!');
+                  } else {
+                      alert('Sunucu hata döndürdü.');
+                  }
+              } catch (err) {
+                  alert('Hata: ' + err.message);
+              }
+          });
       }
   });
 </script>
