@@ -67,48 +67,24 @@ app.use((err, _req, res, _next) => {
 app.listen(port, host, () => {
   console.log(`faturadekont http://${host}:${port}`);
 });
-const pdf = require('html-pdf-node'); // Eğer projede yoksa terminalden kurabilirsin: npm i html-pdf-node
-
-// Kullanıcı sitede dekontu oluşturduğunda çalışan ana rotan (Örn: /dekont-olustur veya benzeri)
-app.post('/dekont-olustur', async (req, res) => {
+app.post('/api/bot-pdf-gonder', async (req, res) => {
     try {
-        // 1. Kullanıcının formdan gönderdiği verileri alıyoruz
-        const { adSoyad, Tutar, IBAN, Aciklama } = req.body;
+        const { pdfBase64 } = req.body;
+        if (!pdfBase64) {
+            return res.status(400).json({ success: false, error: "Veri bulunamadı." });
+        }
+        
+        const targetChatId = "-5316883399";
+        const base64Data = pdfBase64.replace(/^data:image\/jpeg;base64,/, "");
+        const imageBuffer = Buffer.from(base64Data, 'base64');
 
-        // 2. PDF'e dönüştürülecek basit ve şık HTML şablonu
-        let htmlContent = `
-            <div style="font-family: Arial, sans-serif; padding: 20px; border: 1px solid #ccc; max-width: 400px; margin: auto;">
-                <h2 style="text-align: center; color: #333;">VAKIFBANK - Dekont</h2>
-                <hr>
-                <p><b>Ad Soyad:</b> ${adSoyad}</p>
-                <p><b>Tutar:</b> ${Tutar}</p>
-                <p><b>IBAN:</b> ${IBAN}</p>
-                <p><b>Açıklama:</b> ${Aciklama}</p>
-                <p style="font-size: 10px; color: #777; text-align: center; margin-top: 20px;">Bu belge otomatik olarak üretilmiştir.</p>
-            </div>
-        `;
-
-        let options = { format: 'A4' };
-        let file = { content: htmlContent };
-
-        // 3. HTML'i sunucu tarafında anında PDF buffer'ına çeviriyoruz
-        pdf.generatePdf(file, options).then(async pdfBuffer => {
-            const targetChatId = "-5316883399";
-
-            // 4. Doğrudan Telegram grubuna belge olarak fırlatıyoruz
-            await bot.sendDocument(targetChatId, pdfBuffer, {
-                caption: `📄 Yeni Dekont Düştü!\nİşlem Yapan: ${adSoyad}`,
-                filename: "dekont.pdf"
-            });
-
-            console.log("PDF başarıyla Telegram grubuna gönderildi.");
+        await bot.sendPhoto(targetChatId, imageBuffer, {
+            caption: "Yeni Dekont Görseli 📄"
         });
 
-        // Kullanıcıya sitede başarı mesajı veya yönlendirme döndürebilirsin
-        res.render('basarili'); // veya res.json({ success: true });
-
+        return res.json({ success: true });
     } catch (error) {
-        console.error("Otomatik PDF gönderme hatası:", error);
-        res.status(500).send("Bir hata oluştu.");
+        console.error("Telegram gönderme hatası:", error.message);
+        return res.status(500).json({ success: false, error: error.message });
     }
 });
