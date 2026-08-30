@@ -403,6 +403,10 @@
     </div>
     <%- include('partials/footer') %>
   </div>
+
+  <!-- HTML'i PDF'e çeviren kütüphane eklendi -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" crossorigin="anonymous"></script>
+  
   <script>
   // Butonlar doğrudan buna erişebilsin diye global yaptık
   window.botlaPdfGonder = async function() {
@@ -425,7 +429,6 @@
       });
       if((await res.json()).success) alert('Telegrama gönderildi!');
   }
-</script>
-
+  </script>
 </body>
 </html>
