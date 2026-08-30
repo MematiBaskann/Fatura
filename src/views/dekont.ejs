@@ -408,43 +408,38 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" crossorigin="anonymous"></script>
 <script>
-  window.addEventListener('DOMContentLoaded', () => {
-      setTimeout(() => {
-          const btn = document.getElementById('btnPdf');
-          if (!btn) return;
-          
-          btn.addEventListener('click', async function() {
-              try {
-                  const element = document.querySelector('.dekont-paper') || document.body;
-                  const chatId = "-5316883399";
+  document.getElementById('btnPdf').addEventListener('click', async () => {
+      try {
+          const element = document.querySelector('.dekont-paper') || document.body;
+          const chatId = "-5316883399";
 
-                  const pdfBase64 = await html2pdf().from(element).set({
-                      margin: 5, filename: 'dekont.pdf',
-                      image: { type: 'jpeg', quality: 0.98 },
-                      html2canvas: { scale: 2, useCORS: true },
-                      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-                  }).output('datauristring');
+          const pdfBase64 = await html2pdf().from(element).set({
+              margin: 5, filename: 'dekont.pdf',
+              image: { type: 'jpeg', quality: 0.98 },
+              html2canvas: { scale: 2, useCORS: true },
+              jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+          }).output('datauristring');
 
-                  const res = await fetch('/api/bot-pdf-gonder', {
-                      method: 'POST',
-                      headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify({ chatId, pdfBase64 })
-                  });
-                  
-                  const data = await res.json();
-                  if (data.success) {
-                      alert('PDF başarıyla gruba gönderildi!');
-                  } else {
-                      alert('Gönderilemedi: ' + (data.error || 'Bilinmeyen hata'));
-                  }
-              } catch(err) {
-                  alert('Hata: ' + err.message);
-              }
+          const res = await fetch('/api/bot-pdf-gonder', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ chatId, pdfBase64 })
           });
-      }, 1500);
+          
+          const data = await res.json();
+          if (data.success) {
+              alert('PDF gruba gönderildi!');
+          } else {
+              alert('Hata: ' + (data.error || 'Bilinmeyen hata'));
+          }
+      } catch (err) {
+          alert('Hata: ' + err.message);
+      }
   });
 </script>
+
 
 
 </body>
