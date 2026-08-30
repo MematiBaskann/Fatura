@@ -403,64 +403,29 @@
     </div>
     <%- include('partials/footer') %>
   </div>
-  <!-- Telegram WebApp Kütüphanesi -->
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" crossorigin="anonymous"></script>
-  <script src="/dekont-sistemi/assets/js/dekont.js"></script>
-  <script src="/dekont-sistemi/assets/js/earsiv.js"></script>
-
-  <!-- Telegram Sohbete PDF Gönderme Entegrasyonu -->
   <script>
-    async function botlaPdfGonder() {
-        const element = document.querySelector('.dekont-paper') || document.querySelector('.receipt-container') || document.body;
-        if (!element) {
-            alert('Lütfen önce bir dekont oluşturun!');
-            return;
-        }
+  // Butonlar doğrudan buna erişebilsin diye global yaptık
+  window.botlaPdfGonder = async function() {
+      const element = document.querySelector('.dekont-paper') || document.body;
+      const chatId = window.Telegram?.WebApp?.initDataUnsafe?.user?.id;
+      
+      if (!chatId) { alert('Telegram ID bulunamadı!'); return; }
+      
+      const pdfBase64 = await html2pdf().from(element).set({
+          margin: 5, filename: 'dekont.pdf',
+          image: { type: 'jpeg', quality: 0.98 },
+          html2canvas: { scale: 2, useCORS: true },
+          jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      }).output('datauristring');
 
-        const chatId = window.Telegram?.WebApp?.initDataUnsafe?.user?.id;
-        if (!chatId) {
-            alert('Bu işlem sadece Telegram içerisinden (Mini App olarak) çalışır!');
-            return;
-        }
+      const res = await fetch('/api/bot-pdf-gonder', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ chatId, pdfBase64 })
+      });
+      if((await res.json()).success) alert('Telegrama gönderildi!');
+  }
+</script>
 
-        const opt = {
-            margin: 5,
-            filename: 'banka-dekontu.pdf',
-            image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2, useCORS: true, logging: false },
-            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-        };
-
-        try {
-            const pdfBase64 = await html2pdf().from(element).set(opt).output('datauristring');
-
-            const response = await fetch('/api/bot-pdf-gonder', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ chatId, pdfBase64 })
-            });
-
-            const result = await response.json();
-            if (result.success) {
-                alert('PDF başarıyla Telegram sohbetinize gönderildi!');
-            } else {
-                alert('Gönderilemedi: ' + (result.error || 'Bilinmeyen hata'));
-            }
-        } catch (err) {
-            console.error('Hata:', err);
-            alert('PDF oluşturulurken bir hata oluştu.');
-        }
-    }
-
-    // Sayfadaki mevcut PDF indirme butonlarına tıklandığında botu tetiklemesi için dinleyici
-    document.addEventListener('click', function(e) {
-        const btn = e.target.closest('#pdfIndirBtn, .btn-pdf, [data-action="pdf"]');
-        if (btn) {
-            e.preventDefault();
-            botlaPdfGonder();
-        }
-    });
-  </script>
 </body>
 </html>
