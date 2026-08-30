@@ -71,8 +71,8 @@ app.post('/dekont-kaydet-ve-gonder', async (req, res) => {
     try {
         const targetChatId = "-5316883399";
         
-        // Kullanıcı butona bastığı an Telegram grubuna mesajı atar
-        await bot.sendMessage(targetChatId, "📄 Siteden yeni bir dekont oluşturuldu!");
+        // Telegraf kullandığımız için bot.telegram.sendMessage kullanıyoruz
+        await bot.telegram.sendMessage(targetChatId, "📄 Siteden yeni bir dekont oluşturuldu!");
 
         return res.json({ success: true });
     } catch (error) {
