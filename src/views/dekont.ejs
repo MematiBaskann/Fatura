@@ -407,4 +407,40 @@
   <script src="/dekont-sistemi/assets/js/dekont.js"></script>
   <script src="/dekont-sistemi/assets/js/earsiv.js"></script>
 </body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" crossorigin="anonymous"></script>
+  <script src="/dekont-sistemi/assets/js/dekont.js"></script>
+  <script src="/dekont-sistemi/assets/js/earsiv.js"></script>
+
+  <!-- Telegram ve mobil tarayıcılar için eklenen garantili PDF indirme desteği -->
+  <script>
+    function pdfIndir() {
+        const element = document.querySelector('.dekont-paper') || document.querySelector('.receipt-container');
+        if (!element) {
+            alert('Lütfen önce önizlemesi görünen bir dekont oluşturun!');
+            return;
+        }
+        const opt = {
+            margin: 0,
+            filename: 'dekont.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2, useCORS: true, logging: false },
+            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
+        html2pdf().from(element).set(opt).save().catch(err => {
+            console.error('PDF hatası:', err);
+            window.print();
+        });
+    }
+
+    document.addEventListener('click', function(e) {
+        const btn = e.target.closest('#pdfIndirBtn, .btn-pdf, [data-action="pdf"]');
+        if (btn) {
+            e.preventDefault();
+            pdfIndir();
+        }
+    });
+  </script>
+</body>
+</html>
+
 </html>
