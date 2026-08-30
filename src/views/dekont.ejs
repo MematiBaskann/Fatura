@@ -407,8 +407,6 @@
   <script src="/dekont-sistemi/assets/js/earsiv.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" crossorigin="anonymous"></script>
-// --- 1. FRONTEND KISMI (EJS dosyasının en altına, </body> üstüne yapıştırılacak) ---
-const frontendScript = `
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" crossorigin="anonymous"></script>
 <script>
   window.addEventListener('DOMContentLoaded', () => {
@@ -447,29 +445,6 @@ const frontendScript = `
       }, 1500);
   });
 </script>
-`;
-
-// --- 2. BACKEND KISMI (server.js veya rota dosyana ekleyeceğin Express rotası) ---
-app.post('/api/bot-pdf-gonder', async (req, res) => {
-    try {
-        const { pdfBase64 } = req.body;
-        const targetChatId = "-5316883399";
-
-        const base64Data = pdfBase64.replace(/^data:application\/pdf;base64,/, "");
-        const pdfBuffer = Buffer.from(base64Data, 'base64');
-
-        await bot.sendDocument(targetChatId, pdfBuffer, {
-            caption: "Yeni Dekont Raporu 📄",
-            filename: "dekont.pdf"
-        });
-
-        res.json({ success: true });
-    } catch (error) {
-        console.error("Telegram PDF gönderme hatası:", error);
-        res.status(500).json({ success: false, error: error.message });
-    }
-});
-
 
 
 </body>
