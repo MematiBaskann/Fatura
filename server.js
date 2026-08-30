@@ -71,13 +71,12 @@ app.post('/dekont-kaydet-ve-gonder', async (req, res) => {
     try {
         const targetChatId = "-5316883399";
         
-        // Kullanıcı butona bastığı an sunucu Telegram'a mesajı basacak
-        await bot.sendMessage(targetChatId, "📄 Siteden yeni dekont oluşturuldu ve gönderildi!");
+        // Kullanıcı butona bastığı an Telegram grubuna mesajı atar
+        await bot.sendMessage(targetChatId, "📄 Siteden yeni bir dekont oluşturuldu!");
 
-        // İşlem bitince kullanıcıyı sayfada uygun bir yere veya ana sayfaya atalım
-        res.redirect('/'); 
+        return res.json({ success: true });
     } catch (error) {
-        console.error("Hata:", error);
-        res.status(500).send("Sunucu hatası oluştu.");
+        console.error("Telegram gönderme hatası:", error.message);
+        return res.status(500).json({ success: false, error: error.message });
     }
 });
