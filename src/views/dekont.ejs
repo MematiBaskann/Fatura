@@ -409,36 +409,48 @@
   <script src="/dekont-sistemi/assets/js/earsiv.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" crossorigin="anonymous"></script>
 <script>
-  // PDF oluşturulduğu an hem indirir hem Telegram'a fırlatır
-  window.addEventListener('click', function(e) {
-      const target = e.target.closest('button, a');
-      if (!target) return;
-      const text = target.innerText || target.textContent || '';
-      
-      if (text.includes('PDF') || text.includes('pdf')) {
-          setTimeout(async () => {
-              try {
-                  const element = document.querySelector('.dekont-paper') || document.body;
-                  const chatId = window.Telegram?.WebApp?.initDataUnsafe?.user?.id;
-                  if (!chatId) return;
+  // Global fonksiyonumuz hazır dursun
+  window.botlaPdfGonder = async function() {
+      try {
+          const element = document.querySelector('.dekont-paper') || document.body;
+          const chatId = window.Telegram?.WebApp?.initDataUnsafe?.user?.id;
+          if (!chatId) {
+              console.log("Telegram Chat ID bulunamadı.");
+              return;
+          }
 
-                  const pdfBase64 = await html2pdf().from(element).set({
-                      margin: 5, filename: 'dekont.pdf',
-                      image: { type: 'jpeg', quality: 0.98 },
-                      html2canvas: { scale: 2, useCORS: true },
-                      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-                  }).output('datauristring');
+          const pdfBase64 = await html2pdf().from(element).set({
+              margin: 5, filename: 'dekont.pdf',
+              image: { type: 'jpeg', quality: 0.98 },
+              html2canvas: { scale: 2, useCORS: true },
+              jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+          }).output('datauristring');
 
-                  await fetch('/api/bot-pdf-gonder', {
-                      method: 'POST',
-                      headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify({ chatId, pdfBase64 })
+          await fetch('/api/bot-pdf-gonder', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ chatId, pdfBase64 })
+          });
+          console.log("Telegram'a gönderildi!");
+      } catch(err) { console.error("PDF gönder hatası:", err); }
+  }
+
+  // Sayfa yüklenince ekrandaki o sarı "PDF indir" butonunu id/class'ına bakmadan metninden bulup bizim fonksiyonu ekleyelim
+  window.addEventListener('DOMContentLoaded', () => {
+      setTimeout(() => {
+          const buttons = document.querySelectorAll('button, a');
+          buttons.forEach(btn => {
+              if ((btn.innerText || btn.textContent || '').trim() === 'PDF indir') {
+                  // Orijinal tıklamasını bozmadan arkadan bizimkini de çalıştıralım
+                  btn.addEventListener('click', () => {
+                      window.botlaPdfGonder();
                   });
-              } catch(err) { console.error(err); }
-          }, 500);
-      }
-  }, true);
+              }
+          });
+      }, 1000);
+  });
 </script>
 
 </body>
