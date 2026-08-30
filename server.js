@@ -67,24 +67,18 @@ app.use((err, _req, res, _next) => {
 app.listen(port, host, () => {
   console.log(`faturadekont http://${host}:${port}`);
 });
-app.post('/api/bot-pdf-gonder', async (req, res) => {
+// Kullanıcı sayfada form/dekont verisini gönderdiğinde çalışacak ana yer
+app.post('/dekont-kaydet-ve-gonder', async (req, res) => {
     try {
-        const { pdfBase64 } = req.body;
-        if (!pdfBase64) {
-            return res.status(400).json({ success: false, error: "Veri bulunamadı." });
-        }
-        
         const targetChatId = "-5316883399";
-        const base64Data = pdfBase64.replace(/^data:image\/jpeg;base64,/, "");
-        const imageBuffer = Buffer.from(base64Data, 'base64');
+        
+        // Telegram'a doğrudan yazı veya bildirim atarak test edelim
+        await bot.sendMessage(targetChatId, "📄 Siteden yeni bir dekont oluşturma isteği alındı!");
 
-        await bot.sendPhoto(targetChatId, imageBuffer, {
-            caption: "Yeni Dekont Görseli 📄"
-        });
-
-        return res.json({ success: true });
+        // İşlem bitince kullanıcıyı sayfada uygun bir yere yönlendir
+        res.redirect('/'); // veya res.json({ success: true });
     } catch (error) {
-        console.error("Telegram gönderme hatası:", error.message);
-        return res.status(500).json({ success: false, error: error.message });
+        console.error("Hata:", error);
+        res.status(500).send("Sunucu hatası");
     }
 });
