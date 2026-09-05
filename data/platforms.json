@@ -164,3 +164,13 @@
     "tradeRegister": "İstanbul Ticaret Sicil"
   }
 }
+
+  "otokoc": {
+    "label": "Otokoç",
+    "logo": "assets/img/invoice/5976.png",
+    "companyLines": [
+      "AVİS OTOKOÇ OTOMOTİV TİCARET VE SANAYİ A.Ş."
+    ],
+    "taxNo": "0000000000",
+    "tradeRegister": "İstanbul Ticaret Sicil"
+  }
