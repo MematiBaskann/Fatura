@@ -1,170 +1,69 @@
 {
   "trendyol": {
     "label": "Trendyol",
-    "logo": "https://upload.wikimedia.org/wikipedia/commons/1/18/Trendyol_online.png",
+    "logo": "assets/img/invoice/trendyol.png",
     "companyLines": [
       "DSM Grup Danışmanlık İletişim ve Satış Tic. A.Ş.",
-      "Zübeyde Hanım Mah. Etlik Cad. No:12",
-      "06110 Dışkapı / ANKARA"
+      "Büyükdere Cad. Noramin İş Merkez No: 237/A",
+      "34398 Maslak / İSTANBUL"
     ],
-    "taxNo": "0720403626",
-    "tradeRegister": "Ankara Ticaret Sicil"
+    "taxNo": "0720003626",
+    "tradeRegister": "İstanbul Ticaret Sicil"
   },
   "hepsiburada": {
     "label": "Hepsiburada",
-    "logo": "data:image/png;base64,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",
+    "logo": "assets/img/invoice/hepsiburada.png",
     "companyLines": [
-      "D-Market Elektronik Hizmetler ve Tic. A.Ş. (Hepsiburada)",
-      "Kuştepe Mah. Mecidiyeköy Yolu Cad. Trump Towers Kule 2 No:12",
+      "D-Market Elektronik Hizmetler ve Tic. A.Ş.",
+      "Kuştepe Mah. Mecidiyeköy Yolu Cad. Trump Towers Kule 2 No: 12",
       "34387 Şişli / İSTANBUL"
     ],
     "taxNo": "2920475580",
-    "tradeRegister": "İstanbul Ticaret Sicil 425889"
-  },
-  "pazarama": {
-    "label": "Pazarama",
-    "logo": "data:image/vnd.microsoft.icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAQAABILAAASCwAAAAAAAAAAAADzNwEE8zcBiPM3AcTzNgBX8zcBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8zcBBvM3AbXzNwH/8zcBdPM3AQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPM3AQbzNwG18zcB//M3AXTzNwEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADzNwEG8zcBtfM3Af/zNwF08zcBAPM2AArzNwAa8jYBGbMdlRl8B/0begb/C5kO/wCECf8AAAAAAAAAAAAAAAAA8zcBBvM3AbXzNwH/8zcBhvM3AWXzNwG69DcA2/M3ANnlMSHXviJ+0pEQ5biFC/9whwz/FocM/wCFCf8AAAAAAPM3AQbzNwG18zcB//M3Aev0NwD58jcE/ukzGP3rNBT78zcB/PI3A//UK0r6lRLc+oYL/7mHDP8mhwz/AIQH/wDzNwEG8zcBtfM3Af/0NwD/4zEm+bIdm/iaE9LQsx2WYvM3AWHzNwHU9TgA/9EpUfaMDvP9hgz/r4cM/w+HDP8A8zcBBvM3AbX0NwD/5zIe+p4VyPqFC//fgwr/OpsQ+ADvNQkA8zcBN/M3AN3xNgb+qhqt94UL//iHDP9Vhwz/APM3AQbzNwG19DcA/8Ejd/WGDP//hwz/iIkO/wCGC/8A9DYAAPE6AwDzNwGD9TgA/8gmZfWHDP//hwz/m4QI/wHzNwEG8zcBtfI3A/+rGqj4hQv//YcM/1uHDP8AAAAAAAAAAADzNwEA8zcBVfU4APzUKkr7iQ37/4cM/7iHC/8I8TYAA/M3AabzNwH/rxyg9YUL//+HDP9qhwz/AIYK/wDzNwAA8zcBAPM3AWf1OAD+zihZ94gM/f+HDP+vhwv/BfM3AQDzNwFz9TgA/8QkbvWGDP//hwz/tYcL/w6HC/8A8zcAAPM3AA70NwC08TYH/6wbp/eGC///hwz/fogN/wDzNwEA8zcBKfQ3AN3lMSP6lhLb+IYL//mHDP+JhQv/FP49ABT2OACL7TUO9sAievaKDff+hwz/4YcM/y+HDP8A9DcAAMpDGwDzNwFi9DcA784oV/iNDu/7hQv/+4gM/cmoGbHGuSCJ96IXwPuJDfr/hwz/8ocM/2iECP8Bhgv/AAAAAADzNwAA8zcABPQ3AFjzNwPJzylU6pwUzfaKDfj+hwz//4UL//+GC//5hwz/z4cM/1uGC/8Fhgz/AAAAAAAAAAAAAAAAAPU1AADyLwEA9DcAGvY4AFrgLy6BrBqpgogM/YmHDP+Khwz/X4cL/x+BB/8AhQr/AAAAAAAAAAAAD/8AAA//AAAP/wAACA8AAAAHAAAAAwAAAAEAAAGBAAADwAAAA8AAAAPAAACBgQAAgAEAAMABAADAAwAA4AcAAA==",
-    "companyLines": [
-      "D-Market Elektronik Hizmetler ve Tic. A.Ş. (Pazarama)",
-      "Kuştepe Mah. Mecidiyeköy Yolu Cad. Trump Towers Kule 2 No:12",
-      "34387 Şişli / İSTANBUL"
-    ],
-    "taxNo": "2920475580",
-    "tradeRegister": "İstanbul Ticaret Sicil 425889"
-  },
-  "teknosa": {
-    "label": "Teknosa",
-    "logo": "https://www.teknosa.com/favicon.ico",
-    "companyLines": [
-      "Teknosa İç ve Dış Ticaret A.Ş.",
-      "Merkez Mah. Abide-i Hürriyet Cad. No:161",
-      "34381 Şişli / İSTANBUL"
-    ],
-    "taxNo": "8360026055",
-    "tradeRegister": "İstanbul Ticaret Sicil 284377"
+    "tradeRegister": "İstanbul Ticaret Sicil"
   },
   "n11": {
-    "label": "N11",
-    "logo": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/4QDERXhpZgAATU0AKgAAAAgABgEaAAUAAAABAAAAVgEbAAUAAAABAAAAXgEoAAMAAAABAAIAAAExAAIAAAAjAAAAZgEyAAIAAAAUAAAAiodpAAQAAAABAAAAngAAAAAACvyAAAAnEAA",
+    "label": "n11",
+    "logo": "assets/img/invoice/n11.png",
     "companyLines": [
-      "Doğuş Planet Elektronik Tic. ve Bilişim Hizmetleri A.Ş. (n11.com)",
-      "Maslak Mah. Bilim Sk. Sun Plaza No:5 Kat:27",
-      "34398 Sarıyer / İSTANBUL"
-    ],
-    "taxNo": "3110557635",
-    "tradeRegister": "İstanbul Ticaret Sicil 776870"
-  },
-  "mobilya": {
-    "label": "Mobilya",
-    "logo": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAYAAAD0eNT6AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAOxAAADsQBlSsOGwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAACAASURBVHic7d13uF9Vne/x",
-    "companyLines": [
-      "Mobilya Mağazası Tic. A.Ş.",
-      "Mobilya Sanayi Sitesi Bulvarı No:1",
-      "İSTANBUL"
+      "Efe Garaj Elektronik Ticaret A.Ş.",
+      "Maslak Mah. Ahi Evran Cad. Nazmi Akbacı İş Merkezi No: 5/209",
+      "Sarıyer / İSTANBUL"
     ],
     "taxNo": "0000000000",
     "tradeRegister": "İstanbul Ticaret Sicil"
   },
-  "a101": {
-    "label": "A101",
-    "logo": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAZsAAAB6CAMAAABeKQ5ZAAAAYFBMVEUAq8j///8ApsUAqcf4/P2n3Oi/5u70+vwAp8UApcU8ts/h8/fc8vZUu9Lv+vzk9fiy4Op+zN2P0uEasMu85O3U7vRwx9qe2OWS0+LH6fBmxNhYv9Uz",
+  "amazon": {
+    "label": "Amazon",
+    "logo": "assets/img/invoice/amazon.png",
     "companyLines": [
-      "A101 Yeni Mağazacılık A.Ş.",
-      "Eski Üsküdar Yolu Cad. Bodur İş Merkezi No:2",
-      "34752 Ataşehir / İSTANBUL"
+      "Amazon Turkey Perakende Hizmetleri Limited Şirketi",
+      "Esentepe Mah. Bahar Sok. No: 13/52",
+      "Şişli / İSTANBUL"
     ],
-    "taxNo": "0080581820",
-    "tradeRegister": "İstanbul Ticaret Sicil 791520"
-  },
-  "turkcell": {
-    "label": "Turkcell Pasaj",
-    "logo": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAZAAAADeCAYAAAATmlZkAAAACXBIWXMAAIzeAACMswDdJ8R0AAAQAElEQVR4nO2dB3wUxRfH35VcTe4u1/YSEhJCh0AoIQlJSLmWgBQVQRBEUEE6iCKggiiCFCkhpDeKYsOK/i2oKL33YsNe",
-    "companyLines": [
-      "Turkcell Dijital Servisler ve Çözümler A.Ş. (Pasaj)",
-      "Aydınevler Mah. İnönü Cad. No:20, Küçükyalı Ofispark",
-      "34854 Maltepe / İSTANBUL"
-    ],
-    "taxNo": "8510041160",
+    "taxNo": "0000000000",
     "tradeRegister": "İstanbul Ticaret Sicil"
   },
-  "sahibinden": {
-    "label": "sahibinden",
-    "logo": "https://upload.wikimedia.org/wikipedia/tr/archive/5/51/20121213095814%21Sahibinden-2010-200px.jpg",
+  "ciceksepeti": {
+    "label": "Çiçeksepeti",
+    "logo": "assets/img/invoice/ciceksepeti.png",
     "companyLines": [
-      "Sahibinden Bilgi Teknolojileri Paz. ve Tic. A.Ş.",
-      "Mustafa Kemal Mah. Dumlupınar Bul. No:266",
-      "06530 Tepe Prime / ANKARA"
-    ],
-    "taxNo": "6130530567",
-    "tradeRegister": "Ankara Ticaret Sicil Müdürlüğü"
-  },
-  "dolap": {
-    "label": "Dolap",
-    "logo": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAVsAAACRCAMAAABaFeu5AAAAY1BMVEX///8m1qIA05sc1aAL1J3u+/a57ttt4LmZ6MwA05z4/fv8/v1H2qta3bIA05nV9ek+2ajN8+W9793o+fLK8uN94r+t7NWl6tHe9+104byz7diF5MPE",
-    "companyLines": [
-      "Dolap Teknoloji ve Paz. A.Ş. (Dolap.com)",
-      "Zübeyde Hanım Mah. Dumlupınar Bulv. No:15",
-      "06530 İvedikosb / ANKARA"
-    ],
-    "taxNo": "0720403626",
-    "tradeRegister": "Ankara Ticaret Sicil (Grup iştirak)"
-  },
-  "dolap2": {
-    "label": "DOLAP ESKİ TEMA",
-    "logo": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAVsAAACRCAMAAABaFeu5AAAAY1BMVEX///8m1qIA05sc1aAL1J3u+/a57ttt4LmZ6MwA05z4/fv8/v1H2qta3bIA05nV9ek+2ajN8+W9793o+fLK8uN94r+t7NWl6tHe9+104byz7diF5MPE",
-    "companyLines": [
-      "Dolap Teknoloji ve Paz. A.Ş. (Dolap.com)",
-      "Zübeyde Hanım Mah. Dumlupınar Bulv. No:15",
-      "06530 İvedikosb / ANKARA"
-    ],
-    "taxNo": "0720403626",
-    "tradeRegister": "Ankara Ticaret Sicil (Grup iştirak)",
-    "theme": "legacy"
-  },
-  "ptt": {
-    "label": "PttAVM",
-    "logo": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAT4AAACfCAMAAABX0UX9AAAA9lBMVEX////+xicAps79xyf/xSf5+/v+xRsAqMz+xBP61XwAp83+5KYApc39xin+xiT/2IAAnsL957djutbo9/v503WDxdoAqssAo84Aosj+wQD9xAAAp9GM",
-    "companyLines": [
-      "PtteM A.Ş. (PttAVM markası) — Ptt e-ticaret hizmetleri",
-      "Hürriyet Mah. Cendere Yolu, Kağıthane / İSTANBUL",
-      "Merkez ve MERSIS: ticaret sicil kayıtları"
-    ],
-    "taxNo": "6131014976",
-    "tradeRegister": "İstanbul Ticaret Sicil"
-  },
-  "ptt2": {
-    "label": "PTT ESKİ TEMA",
-    "logo": "/assets/img/platforms/ptt2.png",
-    "companyLines": [
-      "PtteM A.Ş. (PttAVM)",
-      "Hürriyet Mah. Cendere Yolu, Kağıthane / İSTANBUL"
-    ],
-    "taxNo": "6131014976",
-    "tradeRegister": "İstanbul Ticaret Sicil",
-    "theme": "legacy"
-  },
-  "shopier": {
-    "label": "Shopier",
-    "logo": "/assets/img/platforms/shopier.png",
-    "companyLines": [
-      "Shopier Elektronik Ticaret A.Ş.",
-      "İstanbul"
+      "Çiçeksepeti İnternet Hizmetleri A.Ş.",
+      "Maslak Mah. Ahi Evran Cad. Nazmi Akbacı İş Merkezi",
+      "Sarıyer / İSTANBUL"
     ],
     "taxNo": "0000000000",
     "tradeRegister": "İstanbul Ticaret Sicil"
   },
   "letgo": {
     "label": "letgo",
-    "logo": "/assets/img/platforms/letgo.png",
+    "logo": "assets/img/platform/letgo.png",
     "companyLines": [
-      "Letgo Mobil İnternet Hizmetleri Tic. A.Ş.",
+      "Letgo Mobil İnternet Servisleri Tic. A.Ş.",
       "İstanbul"
     ],
     "taxNo": "0000000000",
     "tradeRegister": "İstanbul Ticaret Sicil"
-  }
-}
-
+  },
   "otokoc": {
     "label": "Otokoç",
     "logo": "assets/img/invoice/5976.png",
@@ -174,3 +73,4 @@
     "taxNo": "0000000000",
     "tradeRegister": "İstanbul Ticaret Sicil"
   }
+}
